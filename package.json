@@ -1,0 +1,23 @@
+{
+  "name": "com.hextecgames.soundsystem",
+  "version": "1.0.3",
+  "displayName": "Sound System",
+  "unity": "2020.1",
+  "dependencies": {
+    "com.hextecgames.basics": "1.0.0"
+  },
+  "keywords": [],
+  "author": {
+    "name": "HexTecGames",
+    "email": "HexTecGames0@gmail.com"
+  },
+  "hideInEditor": false,
+  "description": "Sound System",
+  "samples": [
+    {
+      "displayName": "Example 1",
+      "description": "Description for Example 1",
+      "path": "Samples/Example 1"
+    }
+  ]
+}
