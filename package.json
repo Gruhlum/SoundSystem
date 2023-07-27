@@ -1,6 +1,6 @@
 {
   "name": "com.hextecgames.soundsystem",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "displayName": "Sound System",
   "unity": "2020.1",
   "dependencies": {

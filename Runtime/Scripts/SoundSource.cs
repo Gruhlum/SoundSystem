@@ -195,8 +195,8 @@ namespace HecTecGames.SoundSystem
 
         private IEnumerator DisableAfter(float time)
         {
-            yield return new WaitForSeconds(time);
-            //gameObject.SetActive(false);
+            yield return new WaitForSeconds(time + 0.2f);
+            gameObject.SetActive(false);
         }
     }
 }

@@ -15,17 +15,21 @@ namespace HecTecGames.SoundSystem
 
         [HideInInspector] public int lastIndex = -1;
 
-        public void PlaySound(float volMulti = 1, float pitchMulti = 1)
+        public void Play(float fadeIn = 0, float delay = 0, float volMulti = 1, float pitchMulti = 1)
         {
             if (SoundClips == null || SoundClips.Count == 0)
             {
                 return;
             }
-            GetNext().Play(pitchMulti, volMulti);
+            GetNext(Order).Play(fadeIn, delay, pitchMulti, volMulti);
         }
-        public SoundClip GetNext()
+        public SoundClip GetNext(ReplayOrder order)
         {
-            switch (Order)
+            if (SoundClips.Count == 2)
+            {
+                order = ReplayOrder.Order;
+            }
+            switch (order)
             {
                 case ReplayOrder.Random:
                     return SoundClips[Random.Range(0, SoundClips.Count)];
@@ -35,6 +39,7 @@ namespace HecTecGames.SoundSystem
                     {
                         return SoundClips[0];
                     }
+                    //TODO: Check if its working
                     int[] indexes = new int[SoundClips.Count - 1];
                     int count = 0;
                     for (int i = 0; i < SoundClips.Count; i++)

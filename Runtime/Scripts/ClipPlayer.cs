@@ -10,20 +10,20 @@ namespace HecTecGames.SoundSystem
 
         public float FadeIn;
         public float Delay;
-
+        public bool Loop;
         private bool init;
 
         private void Start()
         {
             if (init == false)
             {
-                Clip.Play(FadeIn, Delay);
+                Clip.Play(FadeIn, Delay, loop: true);
             }
         }
 
         private void OnEnable()
         {
-            SoundArgs args = Clip.Play(FadeIn, Delay);
+            SoundArgs args = Clip.Play(FadeIn, Delay, loop: true);
             if (!args.failed)
             {
                 init = true;

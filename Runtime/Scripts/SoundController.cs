@@ -47,7 +47,7 @@ namespace HecTecGames.SoundSystem
             }
             else
             {
-                sourceSpawner.ConsumeInstances(soundBoard.transform.Find("TempSounds").GetComponentsInChildren<SoundSource>().ToList());
+                sourceSpawner.AddInstances(soundBoard.transform.Find("TempSounds").GetComponentsInChildren<SoundSource>().ToList());
             }
         }
 
