@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HecTecGames.SoundSystem
+namespace HexTecGames.SoundSystem
 {
 	public class ClipPlayer : MonoBehaviour
 	{
-        [SerializeField] private SoundClip Clip = default;
+        [SerializeField] private SoundClipBase clip = default;
 
         public float FadeIn;
         public float Delay;
@@ -17,13 +17,14 @@ namespace HecTecGames.SoundSystem
         {
             if (init == false)
             {
-                Clip.Play(FadeIn, Delay, loop: true);
+                clip.Play(FadeIn, Delay, loop: true);
             }
         }
 
         private void OnEnable()
         {
-            SoundArgs args = Clip.Play(FadeIn, Delay, loop: true);
+            SoundArgs args = new SoundArgs(clip, FadeIn, Delay, 1f, 1f, Loop);
+            clip.Play(FadeIn, Delay, loop: true);
             if (!args.failed)
             {
                 init = true;

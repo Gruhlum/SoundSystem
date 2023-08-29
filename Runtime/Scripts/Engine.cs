@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HecTecGames.SoundSystem.Example1
+namespace HexTecGames.SoundSystem.Example1
 {
     public class Engine : MonoBehaviour
     {

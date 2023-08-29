@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HecTecGames.SoundSystem
+namespace HexTecGames.SoundSystem
 {
     [System.Serializable]
     public class PersistentSound
-	{
-		public SoundClip soundClip;
+    {
+		public SoundClipBase soundClip;
         public SoundSource Source
         {
             get

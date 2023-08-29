@@ -1,20 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
-namespace HecTecGames.SoundSystem
+namespace HexTecGames.SoundSystem
 {
     [RequireComponent(typeof(AudioSource))]
     public class SoundSource : MonoBehaviour
     {
+        public AudioSource AudioSource
+        {
+            get
+            {
+                return this.audioSource;
+            }
+
+            set
+            {
+                this.audioSource = value;
+            }
+        }
         [SerializeField][HideInInspector] private AudioSource audioSource = default;
-        private SoundClip soundClip;
+        private SoundClipBase soundClip;
 
         public bool IsPlaying
         {
             get
             {
-                return audioSource.isPlaying;
+                return AudioSource.isPlaying;
             }
         }
 
@@ -30,7 +43,7 @@ namespace HecTecGames.SoundSystem
             set
             {
                 volume = value;
-                audioSource.volume = volume;
+                AudioSource.volume = volume;
             }
         }
         private float volume;
@@ -44,7 +57,7 @@ namespace HecTecGames.SoundSystem
             set
             {
                 loop = value;
-                audioSource.loop = loop;
+                AudioSource.loop = loop;
             }
         }
         private bool loop;
@@ -66,36 +79,41 @@ namespace HecTecGames.SoundSystem
                 return true;
             }
         }
-
+      
 
         private void Reset()
         {
-            audioSource = GetComponent<AudioSource>();
+            AudioSource = GetComponent<AudioSource>();
         }
 
-        public void Setup(SoundClip soundClip)
+        public void PlaySound(SoundArgs args)
         {
-            this.soundClip = soundClip;
-            audioSource.clip = soundClip.audioClip;
-        }
+            args.source = this;
+            this.soundClip = args.soundClip;
+            AudioSource.clip = soundClip.GetAudioClip();
+            AudioSource.outputAudioMixerGroup = soundClip.audioMixerGroup;
 
-        public void PlaySound(float delay, float fadeIn, float volMulti, float pitchMulti, bool loop)
-        {
-            Loop = loop;
-            Volume = soundClip.volume * volMulti;
-            audioSource.pitch = soundClip.pitch * pitchMulti;
+            Loop = args.loop;
+            Volume = soundClip.volume * args.volMulti;
+            AudioSource.pitch = soundClip.pitch * args.pitchMulti;
 
-            if (delay > 0)
+
+            if (args.delay > 0)
             {
-                StartCoroutine(PlayDelayed(delay, fadeIn));
+                StartCoroutine(PlayDelayed(args.delay, args.fadeIn));
             }
             else
             {
-                StartPlaying(fadeIn);
+                StartPlaying(args.fadeIn);
             }
         }
         private void StartPlaying(float fadeIn)
         {
+            AudioClip audioClip = soundClip.GetAudioClip();
+            if (soundClip == null || audioClip == null)
+            {
+                return;
+            }
             isFadingOut = false;
             if (fadeIn > 0)
             {
@@ -103,14 +121,14 @@ namespace HecTecGames.SoundSystem
             }
             if (Loop == false)
             {
-                StartCoroutine(DisableAfter(soundClip.audioClip.length / Mathf.Abs(soundClip.pitch)));
+                StartCoroutine(DisableAfter(audioClip.length / Mathf.Abs(soundClip.pitch)));
             }
-            if (audioSource.pitch < 0)
+            if (AudioSource.pitch < 0)
             {
-                audioSource.timeSamples = audioSource.clip.samples - 1;
-                audioSource.Play();
+                AudioSource.timeSamples = AudioSource.clip.samples - 1;
+                AudioSource.Play();
             }
-            else audioSource.Play();
+            else AudioSource.Play();
         }
         private IEnumerator PlayDelayed(float delay, float fadeIn)
         {
@@ -155,7 +173,7 @@ namespace HecTecGames.SoundSystem
                 {
                     StartCoroutine(FadeOut(fadeOut));
                 }
-                audioSource.Stop();
+                AudioSource.Stop();
             }
         }
         private IEnumerator FadeOut(float length)
@@ -177,7 +195,7 @@ namespace HecTecGames.SoundSystem
                 Volume = Mathf.Lerp(startVolume, 0, i / length);
                 yield return new WaitForFixedUpdate();
             }
-            audioSource.Stop();
+            AudioSource.Stop();
             isFadingOut = false;
         }
         private IEnumerator StopDelayed(float delay, float fadeOut)
@@ -189,7 +207,7 @@ namespace HecTecGames.SoundSystem
             }
             else
             {
-                audioSource.Stop();
+                AudioSource.Stop();
             }          
         }
 
