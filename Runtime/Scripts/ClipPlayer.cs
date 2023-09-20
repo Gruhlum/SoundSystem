@@ -15,14 +15,6 @@ namespace HexTecGames.SoundSystem
 
         private void Start()
         {
-            if (init == false)
-            {
-                clip.Play(FadeIn, Delay, loop: true);
-            }
-        }
-
-        private void OnEnable()
-        {
             SoundArgs args = new SoundArgs(clip, FadeIn, Delay, 1f, 1f, Loop);
             clip.Play(FadeIn, Delay, loop: true);
             if (!args.failed)
@@ -30,5 +22,15 @@ namespace HexTecGames.SoundSystem
                 init = true;
             }
         }
+
+        //private void OnEnable()
+        //{
+        //    SoundArgs args = new SoundArgs(clip, FadeIn, Delay, 1f, 1f, Loop);
+        //    clip.Play(FadeIn, Delay, loop: true);
+        //    if (!args.failed)
+        //    {
+        //        init = true;
+        //    }
+        //}
     }
 }

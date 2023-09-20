@@ -12,9 +12,9 @@ namespace HexTecGames.SoundSystem
         public ReplayOrder Order;
 
 
-        private int index = 0;
+        private static int index = 0;
 
-        private float duration;
+        private static float duration;
 
         public bool AdvanceTime(float time)
         {
