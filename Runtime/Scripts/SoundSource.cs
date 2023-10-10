@@ -21,7 +21,6 @@ namespace HexTecGames.SoundSystem
         }
         [SerializeField][HideInInspector] private AudioSource audioSource = default;
 
-
         public SoundClipBase SoundClip
         {
             get
@@ -99,7 +98,7 @@ namespace HexTecGames.SoundSystem
                 deactivateAfterPlay = value;
             }
         }
-        private bool deactivateAfterPlay;
+        private bool deactivateAfterPlay = true;
 
         private bool isDelayed;
 
