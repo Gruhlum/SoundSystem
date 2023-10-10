@@ -73,8 +73,18 @@ namespace HexTecGames.SoundSystem
 
         private void PlayTempSound(SoundArgs args)
         {
+            if (args.unique)
+            {
+                foreach (var spawnerSource in sourceSpawner.GetActiveBehaviours())
+                {
+                    if (spawnerSource.SoundClip == args.soundClip)
+                    {
+                        return;
+                    }
+                }
+            }
             SoundSource source = sourceSpawner.Spawn();
-            source.PlaySound(args);
+            source.Play(args);
         }
         private void PlayMusic(SoundArgs args)
         {
@@ -84,7 +94,7 @@ namespace HexTecGames.SoundSystem
             }
             SoundSource source = sourceSpawner.Spawn();
             source.transform.SetParent(soundBoard.MusicGO.transform);
-            source.PlaySound(args);
+            source.Play(args);
         }
 
         public static void RequestTempSound(SoundArgs args)

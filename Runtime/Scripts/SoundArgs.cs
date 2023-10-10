@@ -12,31 +12,39 @@ namespace HexTecGames.SoundSystem
         public SoundClipBase soundClip;
         public AudioClip audioClip;
         public float fadeIn;
+        public float fadeOut;
         public float delay;
+        public bool unique;
         public bool loop;
-        public float volMulti;
-        public float pitchMulti;
+        public float volumeMulti = 1;
+        public float pitchMulti = 1;
+        public float startPosition;
         public SoundSource source;
         public bool failed;
 
-        public SoundArgs(SoundClipBase clip, AudioClip audioClip, float fadeIn = 0, float delay = 0, float volMulti = 1, float pitchMulti = 1, bool loop = false)
+        public SoundArgs(SoundClipBase clip) : this(clip, clip.GetAudioClip()) { }
+
+        public SoundArgs(SoundClipBase clip, float volumeMulti = 1, float pitchMulti = 1) : this(clip)
+        {
+            this.volumeMulti = volumeMulti;
+            this.pitchMulti = pitchMulti;
+        }
+
+        public SoundArgs(SoundClipBase clip, AudioClip audioClip)
         {
             this.soundClip = clip;
             this.audioClip = audioClip;
-            this.fadeIn = fadeIn;
-            this.delay = delay;
-            this.volMulti = volMulti;
-            this.pitchMulti = pitchMulti;
-            this.loop = loop;
+            this.fadeIn = clip.FadeIn;
+            this.fadeOut = clip.FadeOut;
+            this.delay = clip.Delay;
+            this.startPosition = clip.StartPosition;
+            this.loop = clip.Loop;
+            this.unique = clip.Unique;
         }
-        public SoundArgs(SoundClipBase clip, float fadeIn = 0, float delay = 0, float volMulti = 1, float pitchMulti = 1, bool loop = false)
+        public SoundArgs(SoundClipBase clip, AudioClip audioClip, float volumeMulti = 1, float pitchMulti = 1) : this(clip, audioClip)
         {
-            this.soundClip = clip;
-            this.fadeIn = fadeIn;
-            this.delay = delay;
-            this.volMulti = volMulti;
+            this.volumeMulti = volumeMulti;
             this.pitchMulti = pitchMulti;
-            this.loop = loop;
         }
     }
 }

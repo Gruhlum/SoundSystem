@@ -7,20 +7,15 @@ namespace HexTecGames.SoundSystem
 	public class ClipPlayer : MonoBehaviour
 	{
         [SerializeField] private SoundClipBase clip = default;
-
-        public float FadeIn;
-        public float Delay;
-        public bool Loop;
-        private bool init;
+        //private bool init;
 
         private void Start()
         {
-            SoundArgs args = new SoundArgs(clip, FadeIn, Delay, 1f, 1f, Loop);
-            clip.Play(FadeIn, Delay, loop: true);
-            if (!args.failed)
-            {
-                init = true;
-            }
+            clip.Play();
+            //if (!args.failed)
+            //{
+            //    init = true;
+            //}
         }
 
         //private void OnEnable()

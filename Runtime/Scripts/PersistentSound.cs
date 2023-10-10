@@ -23,7 +23,7 @@ namespace HexTecGames.SoundSystem
 
         [SerializeField] private bool loop = default;
 
-        public void Play(float delay = 0, float fadeIn = 0f, float volumeMulti = 1f, float pitchMulti = 1f)
+        public void Play(float volumeMulti = 1f, float pitchMulti = 1f)
         {
             if (Source != null)
             {
@@ -32,7 +32,7 @@ namespace HexTecGames.SoundSystem
                     return;
                 }
             }
-            SoundArgs args = new SoundArgs(soundClip, fadeIn, delay, volumeMulti, pitchMulti, loop);
+            SoundArgs args = new SoundArgs(soundClip, volumeMulti, pitchMulti);
             SoundController.RequestTempSound(args);
             this.Source = args.source;
         }
@@ -42,7 +42,7 @@ namespace HexTecGames.SoundSystem
             {
                 return;
             }
-            Source.StopSound(delay, fadeOut);
+            Source.Stop(delay, fadeOut);
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 
 namespace HexTecGames.SoundSystem
 {
-	public abstract class SoundClipBase : ScriptableObject
+    public abstract class SoundClipBase : ScriptableObject
     {
         [Range(0, 1)]
         public float volume = 0.5f;
@@ -37,6 +37,32 @@ namespace HexTecGames.SoundSystem
             }
         }
         [SerializeField] private float fadeIn = default;
+        public float FadeOut
+        {
+            get
+            {
+                return fadeOut;
+            }
+            set
+            {
+                fadeOut = value;
+            }
+        }
+        [SerializeField] private float fadeOut = default;
+
+        public float StartPosition
+        {
+            get
+            {
+                return startPosition;
+            }
+            set
+            {
+                startPosition = value;
+            }
+        }
+        [SerializeField] private float startPosition = default;
+
         public bool Loop
         {
             get
@@ -48,13 +74,26 @@ namespace HexTecGames.SoundSystem
                 loop = value;
             }
         }
-        [SerializeField] private bool loop = default;   
+        [SerializeField] private bool loop = default;
+        public bool Unique
+        {
+            get
+            {
+                return unique;
+            }
+            set
+            {
+                unique = value;
+            }
+        }
+        [SerializeField] private bool unique = default;
+
 
         public AudioMixerGroup audioMixerGroup;
 
         public virtual void Play()
         {
-            Play(GetSoundArgs());
+            Play(new SoundArgs(this));
         }
         public virtual void Play(SoundArgs args)
         {
@@ -62,11 +101,7 @@ namespace HexTecGames.SoundSystem
         }
         public virtual void Play(float volumeMulti = 1f, float pitchMulti = 1f)
         {
-            Play(GetSoundArgs(fadeIn, delay, volumeMulti, pitchMulti, loop));
-        }
-        public virtual void Play(float fadeIn = 0f, float delay = 0f, float volumeMulti = 1f, float pitchMulti = 1f, bool loop = false)
-        {
-            Play(GetSoundArgs(fadeIn, delay, volumeMulti, pitchMulti, loop));
+            Play(new SoundArgs(this, volumeMulti, pitchMulti));
         }
         public static SoundClip GetNext(ReplayOrder order, ref int index, List<SoundClip> clips)
         {
@@ -114,14 +149,6 @@ namespace HexTecGames.SoundSystem
             }
         }
 
-        public virtual SoundArgs GetSoundArgs()
-        {
-            return new SoundArgs(this, GetAudioClip(), fadeIn, delay, volume, pitch, loop);
-        }
-        public virtual SoundArgs GetSoundArgs(float fadeIn = 0f, float delay = 0f, float volumeMulti = 1f, float pitchMulti = 1f, bool loop = false)
-        {
-            return new SoundArgs(this, GetAudioClip(), fadeIn, delay, volumeMulti, pitchMulti, loop);
-        }
         public abstract AudioClip GetAudioClip();
     }
 }
