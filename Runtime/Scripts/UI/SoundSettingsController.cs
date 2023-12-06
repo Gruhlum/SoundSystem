@@ -35,7 +35,7 @@ namespace HexTecGames.SoundSystem
 
         public void OnSliderChanged(AudioSlider slider, float value)
         {
-            ChangeVolume(slider.AudioParam, value);
+            ChangeVolume(slider);
         }
     }
 }

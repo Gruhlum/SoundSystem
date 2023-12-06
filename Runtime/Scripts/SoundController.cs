@@ -19,8 +19,6 @@ namespace HexTecGames.SoundSystem
 
         private SoundBoard soundBoard;
 
-        [SerializeField] private MusicPlayer musicPlayer = default;
-
         private void Awake()
         {
             SetSoundBoard();
@@ -31,24 +29,19 @@ namespace HexTecGames.SoundSystem
         }
         private void Start()
         {      
-            float value = soundBoard.GetMusicDuration();
-            if (value <= 0)
-            {
-                PlayMusic(musicPlayer.GetNext());
-            }
         }
         private void OnDisable()
         {
             TempSoundRequested -= PlayTempSound;
         }
 
-        private void Update()
-        {
-            if (musicPlayer.AdvanceTime(Time.deltaTime))
-            {
-                PlayMusic(musicPlayer.GetNext());
-            }
-        }
+        //private void Update()
+        //{
+        //    if (musicPlayer.AdvanceTime(Time.deltaTime))
+        //    {
+        //        PlayMusic(musicPlayer.GetNext());
+        //    }
+        //}
 
         private void SetSoundBoard()
         {
@@ -73,6 +66,15 @@ namespace HexTecGames.SoundSystem
 
         private void PlayTempSound(SoundArgs args)
         {
+            if (args.audioClip == null)
+            {
+                if (args.soundClip != null)
+                {
+                    Debug.Log("No audioClip! " + args.soundClip.name);
+                }
+                else Debug.Log("No audioClip!");
+                return;
+            }
             if (args.unique)
             {
                 foreach (var spawnerSource in sourceSpawner.GetActiveBehaviours())
@@ -86,16 +88,16 @@ namespace HexTecGames.SoundSystem
             SoundSource source = sourceSpawner.Spawn();
             source.Play(args);
         }
-        private void PlayMusic(SoundArgs args)
-        {
-            if (args == null)
-            {
-                return;
-            }
-            SoundSource source = sourceSpawner.Spawn();
-            source.transform.SetParent(soundBoard.MusicGO.transform);
-            source.Play(args);
-        }
+        //private void PlayMusic(SoundArgs args)
+        //{
+        //    if (args == null)
+        //    {
+        //        return;
+        //    }
+        //    SoundSource source = sourceSpawner.Spawn();
+        //    source.transform.SetParent(soundBoard.MusicGO.transform);
+        //    source.Play(args);
+        //}
 
         public static void RequestTempSound(SoundArgs args)
         {

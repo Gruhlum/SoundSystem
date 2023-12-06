@@ -21,7 +21,7 @@ namespace HexTecGames.SoundSystem
         }
         [SerializeField][HideInInspector] private AudioSource audioSource = default;
 
-        public SoundClipBase SoundClip
+        public SoundClip SoundClip
         {
             get
             {
@@ -32,7 +32,7 @@ namespace HexTecGames.SoundSystem
                 this.soundClip = value;
             }
         }
-        private SoundClipBase soundClip;
+        private SoundClip soundClip;
 
         public SoundArgs Args
         {
@@ -130,19 +130,19 @@ namespace HexTecGames.SoundSystem
         }
         private float GetScaledLength(float length)
         {
-            return  (length - Args.startPosition) / Mathf.Abs(SoundClip.pitch);
+            return  (length - Args.startPosition) / Mathf.Abs(SoundClip.Pitch);
         }
         public void Play(SoundArgs args)
         {
             Args = args;
             args.source = this;
             this.SoundClip = args.soundClip;
-            AudioSource.clip = SoundClip.GetAudioClip();
+            AudioSource.clip = args.audioClip;
             AudioSource.outputAudioMixerGroup = SoundClip.audioMixerGroup;
 
             Loop = args.loop;
-            Volume = SoundClip.volume * args.volumeMulti;
-            AudioSource.pitch = SoundClip.pitch * args.pitchMulti;
+            Volume = SoundClip.Volume * args.volumeMulti;
+            AudioSource.pitch = SoundClip.Pitch * args.pitchMulti;
             AudioSource.time = args.startPosition;
             if (args.delay > 0)
             {
@@ -225,6 +225,7 @@ namespace HexTecGames.SoundSystem
                     StartCoroutine(FadeOut(fadeOut));
                 }
                 AudioSource.Stop();
+                gameObject.SetActive(false);
             }
         }
         private IEnumerator FadeOut(float length)
@@ -259,6 +260,7 @@ namespace HexTecGames.SoundSystem
             else
             {
                 AudioSource.Stop();
+                gameObject.SetActive(false);
             }          
         }
 

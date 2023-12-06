@@ -9,17 +9,26 @@ using UnityEngine.UI;
 
 namespace HexTecGames
 {
-	public abstract class SoundControl : MonoBehaviour
-	{
+    public abstract class SoundControl : MonoBehaviour
+    {
         [SerializeField] protected AudioMixer master = default;
 
-        protected void ChangeVolume(string param, float value)
+
+        public event Action<float> OnVolumeChanged;
+
+        protected void ChangeVolume(AudioSlider slider)
+        {
+            ChangeVolume(slider.AudioParam, ConvertSliderValueToPercent(slider.Slider));
+        }
+        protected void ChangeVolume(string param, float percent)
         {
             if (master == null)
             {
                 return;
             }
-            master.SetFloat(param, ConvertPercentToLog(value));
+            float volume = ConvertPercentToLog(percent);
+            master.SetFloat(param, volume);
+            OnVolumeChanged?.Invoke(volume);
         }
         protected void SaveVolume(AudioSlider slider)
         {
@@ -48,7 +57,7 @@ namespace HexTecGames
             {
                 master.SetFloat(slider.AudioParam, Mathf.Log(volume) * 20f);
             }
-            slider.Slider.value = ConvertPercentToSliderValue(slider.Slider, volume);
+            slider.Slider.SetValueWithoutNotify(ConvertPercentToSliderValue(slider.Slider, volume));
         }
 
         protected float ConvertSliderValueToPercent(Slider slider)
@@ -70,6 +79,6 @@ namespace HexTecGames
         protected float ConvertLogToPercent(float value)
         {
             return Mathf.Exp(value / 20f);
-        }      
+        }
     }
 }

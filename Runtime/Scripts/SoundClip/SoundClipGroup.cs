@@ -28,7 +28,19 @@ namespace HexTecGames.SoundSystem
 
         public List<SoundClip> SoundClips;
 
-        [HideInInspector] public int lastIndex = -1;
+        public SoundClip LastClip
+        {
+            get
+            {
+                return lastClip;
+            }
+            private set
+            {
+                lastClip = value;
+            }
+        }
+        [SerializeField] private SoundClip lastClip = default;
+
 
         public override void Play()
         {
@@ -36,23 +48,33 @@ namespace HexTecGames.SoundSystem
             {
                 foreach (var soundClip in SoundClips)
                 {
-                    soundClip.Play(volume, pitch);
+                    soundClip.Play();
                 }
             }
-            else base.Play();
+            else
+            {
+                SoundClip clip = GetNext();
+                clip.Play();
+                LastClip = clip;
+            } 
         }
         public override void Play(SoundArgs args)
         {
-            args.volumeMulti *= volume;
-            args.pitchMulti *= pitch;
             if (PlayAllAtOnce)
             {
                 foreach (var soundClip in SoundClips)
                 {
+                    args.Setup(soundClip);
                     soundClip.Play(args);
                 }
             }
-            else base.Play(args);
+            else
+            {
+                SoundClip clip = GetNext();
+                args.Setup(clip);
+                clip.Play(args);
+                LastClip = clip;
+            } 
         }
 
         public override void Play(float volumeMulti = 1, float pitchMulti = 1)
@@ -61,19 +83,72 @@ namespace HexTecGames.SoundSystem
             {
                 foreach (var soundClip in SoundClips)
                 {
-                    soundClip.Play(volume * volumeMulti, pitch * pitchMulti);
+                    soundClip.Play(volumeMulti, pitchMulti);
                 }
             }
-            else base.Play(volumeMulti, pitchMulti);
+            else
+            {
+                SoundClip clip = GetNext();
+                clip.Play(volumeMulti, pitchMulti);
+                LastClip = clip;
+            }
         }
 
-        public override AudioClip GetAudioClip()
+        protected virtual SoundClip GetNext()
         {
             if (SoundClips == null || SoundClips.Count == 0)
             {
                 return null;
             }
-            return GetNext(Order, ref lastIndex, SoundClips).audioClip;
-        }   
+            int index = 0;
+            ReplayOrder order = Order;
+            if (SoundClips.Count == 2 && order == ReplayOrder.NonRepeating)
+            {
+                order = ReplayOrder.Order;
+            }
+            switch (order)
+            {
+                case ReplayOrder.Random:
+                    return SoundClips[Random.Range(0, SoundClips.Count)];
+
+                case ReplayOrder.NonRepeating:
+                    if (SoundClips.Count == 1)
+                    {
+                        return SoundClips[0];
+                    }
+                    //TODO: Check if its working
+                    int[] indexes = new int[SoundClips.Count];
+                    int count = 0;
+                    for (int i = 0; i < SoundClips.Count; i++)
+                    {
+                        if (LastClip != SoundClips[i])
+                        {
+                            indexes[count] = i;
+                            count++;
+                        }
+                    }
+                    index = indexes[Random.Range(0, indexes.Length)];
+                    return SoundClips[index];
+
+                case ReplayOrder.Order:
+                    if (SoundClips.Count == 1)
+                    {
+                        return SoundClips[0];
+                    }
+                    if (LastClip != null)
+                    {
+                        index = SoundClips.IndexOf(LastClip) + 1;
+                    }
+                    
+                    if (index >= SoundClips.Count)
+                    {
+                        index = 0;
+                    }
+                    return SoundClips[index];
+                default:
+                    return null;
+            }
+        }
+
     }
 }

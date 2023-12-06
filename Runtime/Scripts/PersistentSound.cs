@@ -7,7 +7,7 @@ namespace HexTecGames.SoundSystem
     [System.Serializable]
     public class PersistentSound
     {
-		public SoundClipBase soundClip;
+		public SoundClip soundClip;
         public SoundSource Source
         {
             get
@@ -21,8 +21,6 @@ namespace HexTecGames.SoundSystem
         }
         private SoundSource source;
 
-        [SerializeField] private bool loop = default;
-
         public void Play(float volumeMulti = 1f, float pitchMulti = 1f)
         {
             if (Source != null)
@@ -33,7 +31,7 @@ namespace HexTecGames.SoundSystem
                 }
             }
             SoundArgs args = new SoundArgs(soundClip, volumeMulti, pitchMulti);
-            SoundController.RequestTempSound(args);
+            soundClip.Play(args);
             this.Source = args.source;
         }
         public void Stop(float delay = 0, float fadeOut = 0)

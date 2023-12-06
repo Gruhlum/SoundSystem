@@ -6,12 +6,12 @@ namespace HexTecGames.SoundSystem
 {
 	public class ClipPlayer : MonoBehaviour
 	{
-        [SerializeField] private SoundClipBase clip = default;
+        [SerializeField] protected SoundClipBase soundClip = default;
         //private bool init;
 
         private void Start()
         {
-            clip.Play();
+            soundClip.Play();
             //if (!args.failed)
             //{
             //    init = true;

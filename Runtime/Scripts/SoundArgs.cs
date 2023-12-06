@@ -9,7 +9,7 @@ namespace HexTecGames.SoundSystem
     {
         //SoundClip clip, float delay, float fadeIn, float volMulti, float pitchMulti, bool loop
 
-        public SoundClipBase soundClip;
+        public SoundClip soundClip;
         public AudioClip audioClip;
         public float fadeIn;
         public float fadeOut;
@@ -22,15 +22,20 @@ namespace HexTecGames.SoundSystem
         public SoundSource source;
         public bool failed;
 
-        public SoundArgs(SoundClipBase clip) : this(clip, clip.GetAudioClip()) { }
+        public SoundArgs(SoundClip clip) : this(clip, clip.AudioClip) { }
 
-        public SoundArgs(SoundClipBase clip, float volumeMulti = 1, float pitchMulti = 1) : this(clip)
+        public SoundArgs(SoundClip clip, float volumeMulti = 1, float pitchMulti = 1) : this(clip)
+        {
+            this.volumeMulti = volumeMulti;
+            this.pitchMulti = pitchMulti;
+        }
+        public SoundArgs(float volumeMulti = 1, float pitchMulti = 1)
         {
             this.volumeMulti = volumeMulti;
             this.pitchMulti = pitchMulti;
         }
 
-        public SoundArgs(SoundClipBase clip, AudioClip audioClip)
+        public SoundArgs(SoundClip clip, AudioClip audioClip)
         {
             this.soundClip = clip;
             this.audioClip = audioClip;
@@ -41,10 +46,16 @@ namespace HexTecGames.SoundSystem
             this.loop = clip.Loop;
             this.unique = clip.Unique;
         }
-        public SoundArgs(SoundClipBase clip, AudioClip audioClip, float volumeMulti = 1, float pitchMulti = 1) : this(clip, audioClip)
+        public SoundArgs(SoundClip clip, AudioClip audioClip, float volumeMulti = 1, float pitchMulti = 1) : this(clip, audioClip)
         {
             this.volumeMulti = volumeMulti;
             this.pitchMulti = pitchMulti;
+        }
+
+        public void Setup(SoundClip clip)
+        {
+            this.soundClip = clip;
+            this.audioClip = clip.AudioClip;
         }
     }
 }
