@@ -30,9 +30,17 @@ namespace HexTecGames.SoundSystem
                     return;
                 }
             }
-            SoundArgs args = new SoundArgs(soundClip, volumeMulti, pitchMulti);
-            soundClip.Play(args);
+            SoundArgs args = new SoundArgs(soundClip, volumeMulti, pitchMulti);            
+            SoundController.RequestPersistentSound(args);
             this.Source = args.source;
+        }
+        public void Stop()
+        {
+            if (Source == null)
+            {
+                return;
+            }
+            Source.Stop(soundClip.Delay, soundClip.FadeOut);
         }
         public void Stop(float delay = 0, float fadeOut = 0)
         {

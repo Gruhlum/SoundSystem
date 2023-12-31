@@ -15,7 +15,8 @@ namespace HexTecGames.SoundSystem
 
         private Spawner<SoundSource> sourceSpawner = new Spawner<SoundSource>();
 
-        private static event Action<SoundArgs> TempSoundRequested;
+        private static event Action<SoundArgs> OnTempSoundRequested;
+        private static event Action<SoundArgs> OnPersistentSoundRequested;
 
         private SoundBoard soundBoard;
 
@@ -25,14 +26,13 @@ namespace HexTecGames.SoundSystem
 
             sourceSpawner.Prefab = soundSourcePrefab;
             sourceSpawner.Parent = soundBoard.transform.Find("TempSounds");
-            TempSoundRequested += PlayTempSound;
+            OnTempSoundRequested += TemporarySoundRequested;
+            OnPersistentSoundRequested += PersistentSoundRequested;
         }
-        private void Start()
-        {      
-        }
+      
         private void OnDisable()
         {
-            TempSoundRequested -= PlayTempSound;
+            OnTempSoundRequested -= TemporarySoundRequested;
         }
 
         //private void Update()
@@ -52,7 +52,11 @@ namespace HexTecGames.SoundSystem
                 DontDestroyOnLoad(soundBoard);
                 GameObject child = new GameObject("TempSounds");
                 child.transform.SetParent(soundBoard.transform);
-                soundBoard.SoundGO = child;
+                soundBoard.TempSoundGO = child;
+
+                child = new GameObject("PersistentSounds");
+                child.transform.SetParent(soundBoard.transform);
+                soundBoard.PersistentSoundGO = child;
 
                 child = new GameObject("Music");
                 child.transform.SetParent(soundBoard.transform);
@@ -64,7 +68,7 @@ namespace HexTecGames.SoundSystem
             }
         }
 
-        private void PlayTempSound(SoundArgs args)
+        private void TemporarySoundRequested(SoundArgs args)
         {
             if (args.audioClip == null)
             {
@@ -88,6 +92,12 @@ namespace HexTecGames.SoundSystem
             SoundSource source = sourceSpawner.Spawn();
             source.Play(args);
         }
+        private void PersistentSoundRequested(SoundArgs args)
+        {
+            var source = Instantiate(sourceSpawner.Prefab);
+            source.Play(args);
+            source.transform.SetParent(soundBoard.PersistentSoundGO.transform);
+        }
         //private void PlayMusic(SoundArgs args)
         //{
         //    if (args == null)
@@ -98,16 +108,23 @@ namespace HexTecGames.SoundSystem
         //    source.transform.SetParent(soundBoard.MusicGO.transform);
         //    source.Play(args);
         //}
-
+        public static void RequestPersistentSound(SoundArgs args)
+        {
+            if (OnPersistentSoundRequested == null)
+            {
+                Debug.LogWarning("No SoundController active in scene!");
+                args.failed = true;
+            }
+            else OnPersistentSoundRequested.Invoke(args);
+        }
         public static void RequestTempSound(SoundArgs args)
         {
-            if (TempSoundRequested != null)
+            if (OnTempSoundRequested == null)
             {
-                TempSoundRequested.Invoke(args);
-                return;
+                Debug.LogWarning("No SoundController active in scene!");
+                args.failed = true;
             }
-            Debug.LogWarning("No SoundController active in scene!");
-            args.failed = true;
+            else OnTempSoundRequested.Invoke(args);
         }
 
         //public void ChangeGlobalVolume(float value)

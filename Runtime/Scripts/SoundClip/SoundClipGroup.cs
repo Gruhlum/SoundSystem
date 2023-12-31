@@ -39,7 +39,7 @@ namespace HexTecGames.SoundSystem
                 lastClip = value;
             }
         }
-        [SerializeField] private SoundClip lastClip = default;
+        private SoundClip lastClip = default;
 
 
         public override void Play()

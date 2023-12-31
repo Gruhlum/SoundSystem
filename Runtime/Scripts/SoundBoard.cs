@@ -17,20 +17,33 @@ namespace HexTecGames.SoundSystem
                 musicGO = value;
             }
         }
-        [SerializeField] private GameObject musicGO = default;
+        private GameObject musicGO = default;
 
-        public GameObject SoundGO
+        public GameObject TempSoundGO
         {
             get
             {
-                return soundGO;
+                return tempSoundGO;
             }
             set
             {
-                soundGO = value;
+                tempSoundGO = value;
             }
         }
-        [SerializeField] private GameObject soundGO = default;
+        private GameObject tempSoundGO = default;
+
+        public GameObject PersistentSoundGO
+        {
+            get
+            {
+                return persistentSoundGO;
+            }
+            set
+            {
+                persistentSoundGO = value;
+            }
+        }
+        private GameObject persistentSoundGO = default;
 
         public float GetMusicDuration()
         {
