@@ -19,7 +19,7 @@ namespace HexTecGames.SoundSystem
                 this.audioSource = value;
             }
         }
-        [SerializeField][HideInInspector] private AudioSource audioSource = default;
+        [SerializeField] private AudioSource audioSource = default;
 
         public SoundClip SoundClip
         {
