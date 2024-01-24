@@ -72,11 +72,11 @@ namespace HexTecGames.SoundSystem
         {
             if (args.audioClip == null)
             {
-                if (args.soundClip != null)
-                {
-                    Debug.Log("No audioClip! " + args.soundClip.name);
-                }
-                else Debug.Log("No audioClip!");
+                //if (args.soundClip != null)
+                //{
+                //    Debug.Log("No audioClip! " + args.soundClip.name);
+                //}
+                //else Debug.Log("No audioClip!");
                 return;
             }
             if (args.unique)

@@ -123,7 +123,10 @@ namespace HexTecGames.SoundSystem
         {
             AudioSource = GetComponent<AudioSource>();
         }
-
+        private void OnDestroy()
+        {
+            StopAllCoroutines();
+        }
         private float GetScaledLength()
         {
             return GetScaledLength(audioSource.clip.length);
@@ -214,6 +217,10 @@ namespace HexTecGames.SoundSystem
 
         public void Stop(float delay = 0, float fadeOut = 0)
         {
+            if (this == null || gameObject == null)
+            {
+                return;
+            }
             if (delay > 0)
             {
                 StartCoroutine(StopDelayed(delay, fadeOut));
@@ -224,7 +231,10 @@ namespace HexTecGames.SoundSystem
                 {
                     StartCoroutine(FadeOut(fadeOut));
                 }
-                AudioSource.Stop();
+                if (audioSource != null)
+                {
+                    AudioSource.Stop();
+                }
                 gameObject.SetActive(false);
             }
         }
@@ -259,7 +269,10 @@ namespace HexTecGames.SoundSystem
             }
             else
             {
-                AudioSource.Stop();
+                if (AudioSource != null)
+                {
+                    AudioSource.Stop();
+                }               
                 gameObject.SetActive(false);
             }          
         }
