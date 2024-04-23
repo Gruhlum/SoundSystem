@@ -36,7 +36,7 @@ namespace HexTecGames.SoundSystem
         [SerializeField] private bool stopOnDestroy;
 
 
-        private SoundSource source;
+        protected SoundSource source;
 
         private void Start()
         {
@@ -52,13 +52,13 @@ namespace HexTecGames.SoundSystem
                 Stop();
             }
         }
-        public void Play()
+        public virtual void Play()
         {
             SoundArgs args = new SoundArgs(soundClip);
             soundClip.Play(args);
             source = args.source;
         }
-        public void Stop()
+        public virtual void Stop()
         {
             if (source != null)
             {
