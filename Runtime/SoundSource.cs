@@ -127,6 +127,7 @@ namespace HexTecGames.SoundSystem
         }
         void OnDisable()
         {
+            OnFinishedPlaying?.Invoke(this);
             isStopping = false;
         }
         private void OnDestroy()
