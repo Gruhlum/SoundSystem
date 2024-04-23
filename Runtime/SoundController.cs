@@ -100,7 +100,7 @@ namespace HexTecGames.SoundSystem
             {
                 sources.Add(source);
             }
-            else activeSources.Add(source.SoundClip, new List<SoundSource>());
+            else activeSources.Add(args.soundClip, new List<SoundSource>());
             source.Play(args);
         }
         private void PersistentSoundRequested(SoundArgs args)
