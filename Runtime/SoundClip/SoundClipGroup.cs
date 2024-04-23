@@ -7,7 +7,7 @@ namespace HexTecGames.SoundSystem
 {
     public enum ReplayOrder { Random, NonRepeating, Order }
 
-    [CreateAssetMenu(fileName = "New ClipGroup", menuName = "SoundPack/ClipGroup")]
+    [CreateAssetMenu(fileName = "New ClipGroup", menuName = "HexTecGames/SoundPack/ClipGroup")]
     public class SoundClipGroup : SoundClipBase
     {
         public bool PlayAllAtOnce

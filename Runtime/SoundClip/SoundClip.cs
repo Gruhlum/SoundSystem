@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using HexTecGames.Basics;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace HexTecGames.SoundSystem
 {
-    [CreateAssetMenu(fileName = "New Clip", menuName = "SoundPack/Clip")]
+    [CreateAssetMenu(fileName = "New Clip", menuName = "HexTecGames/SoundPack/Clip")]
     public class SoundClip : SoundClipBase
     {
         public AudioClip AudioClip
@@ -14,39 +15,39 @@ namespace HexTecGames.SoundSystem
             {
                 return audioClip;
             }
-            set
+            private set
             {
                 audioClip = value;
             }
         }
         [SerializeField] private AudioClip audioClip = default;
-       
-        public float Volume
+
+        public FloatValue Volume
         {
             get
             {
                 return volume;
             }
-            set
+            private set
             {
                 volume = value;
             }
         }
-        [Range(0, 1)][SerializeField] private float volume = 0.5f;
-    
-        public float Pitch
+        [SerializeField] private FloatValue volume;
+
+
+        public FloatValue Pitch
         {
             get
             {
                 return pitch;
             }
-            set
+            private set
             {
                 pitch = value;
             }
         }
-        [Range(-3, 3)][SerializeField] private float pitch = 1f;
-
+        [SerializeField] private FloatValue pitch;
 
         public float Delay
         {
@@ -54,7 +55,7 @@ namespace HexTecGames.SoundSystem
             {
                 return delay;
             }
-            set
+            private set
             {
                 delay = value;
             }
@@ -66,7 +67,7 @@ namespace HexTecGames.SoundSystem
             {
                 return fadeIn;
             }
-            set
+            private set
             {
                 fadeIn = value;
             }
@@ -78,7 +79,7 @@ namespace HexTecGames.SoundSystem
             {
                 return fadeOut;
             }
-            set
+            private set
             {
                 fadeOut = value;
             }
@@ -91,7 +92,7 @@ namespace HexTecGames.SoundSystem
             {
                 return startPosition;
             }
-            set
+            private set
             {
                 startPosition = value;
             }
@@ -104,25 +105,49 @@ namespace HexTecGames.SoundSystem
             {
                 return loop;
             }
-            set
+            private set
             {
                 loop = value;
             }
         }
         [SerializeField] private bool loop = default;
-        public bool Unique
+
+        public bool LimitInstances
         {
             get
             {
-                return unique;
+                return limitInstances;
             }
-            set
+            private set
             {
-                unique = value;
+                limitInstances = value;
             }
         }
-        [SerializeField] private bool unique = default;
-
+        [SerializeField] private bool limitInstances;
+        public LimitMode LimitMode
+        {
+            get
+            {
+                return limitMode;
+            }
+            private set
+            {
+                limitMode = value;
+            }
+        }
+        [SerializeField, DrawIf(nameof(limitInstances), true)] private LimitMode limitMode = default;
+        public int MaximumInstances
+        {
+            get
+            {
+                return maxiumInstances;
+            }
+            private set
+            {
+                maxiumInstances = value;
+            }
+        }
+        [SerializeField, DrawIf(nameof(limitInstances), true), Min(1)] private int maxiumInstances = 4;
 
         public AudioMixerGroup audioMixerGroup;
 
