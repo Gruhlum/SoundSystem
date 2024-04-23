@@ -74,7 +74,13 @@ namespace HexTecGames.SoundSystem
         private float sliderMin;
         private float sliderMax;
 
-        public FloatValue(float sliderMin, float sliderMax)
+        public FloatValue()
+        {
+            Min = 1;
+            Max = 1;
+            Flat = 1;
+        }
+        public FloatValue(float sliderMin, float sliderMax) : this()
         {
             if (sliderMin > sliderMax)
             {
