@@ -20,7 +20,7 @@ namespace HexTecGames.SoundSystem
                 playOnStart = value;
             }
         }
-        private bool playOnStart;
+        [SerializeField] private bool playOnStart;
 
         public bool StopOnDestroy
         {
@@ -33,7 +33,7 @@ namespace HexTecGames.SoundSystem
                 stopOnDestroy = value;
             }
         }
-        private bool stopOnDestroy;
+        [SerializeField] private bool stopOnDestroy;
 
 
         private SoundSource source;

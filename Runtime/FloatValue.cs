@@ -76,7 +76,7 @@ namespace HexTecGames.SoundSystem
 
         public FloatValue()
         {
-            Min = 1;
+            Min = 0.5f;
             Max = 1;
             Flat = 1;
         }
