@@ -13,6 +13,24 @@ MonoBehaviour:
   m_Name: Gun 1
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 68b0d023db81cab43b74e559a3c7f112, type: 3}
-  volume: 1
-  pitch: 1
+  volume:
+    mode: 0
+    flat: 1
+    range: {x: 0, y: 0}
+    sliderMin: 0
+    sliderMax: 1
+  pitch:
+    mode: 1
+    flat: 1
+    range: {x: 0.37681156, y: 0.5217391}
+    sliderMin: 0
+    sliderMax: 1
+  delay: 0
+  fadeIn: 0
+  fadeOut: 0
+  startPosition: 0
+  loop: 0
+  limitInstances: 0
+  limitMode: 0
+  maxiumInstances: 4
   audioMixerGroup: {fileID: 0}

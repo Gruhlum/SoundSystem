@@ -29,7 +29,7 @@ namespace HexTecGames.SoundSystem
                 {
                     return Flat;
                 }
-                else return Random.Range(Min, Max);
+                else return Random.Range(Range.x, Range.y);
             }
         }
 
@@ -44,41 +44,52 @@ namespace HexTecGames.SoundSystem
                 flat = value;
             }
         }
-        [SerializeField, DrawIf(nameof(mode), ValueMode.Flat)] private float flat = 1f;
-        private float Min
+        [SerializeField] private float flat = 1f;
+        //private float Min
+        //{
+        //    get
+        //    {
+        //        return min;
+        //    }
+        //    set
+        //    {
+        //        min = value;
+        //    }
+        //}
+        //[SerializeField] private float min = 0f;
+
+        //private float Max
+        //{
+        //    get
+        //    {
+        //        return max;
+        //    }
+        //    set
+        //    {
+        //        max = value;
+        //    }
+        //}
+        //[SerializeField] private float max = 1f;
+
+        public Vector2 Range
         {
             get
             {
-                return min;
+                return range;
             }
-            set
+            private set
             {
-                min = value;
+                range = value;
             }
         }
-        [SerializeField, DrawIf(nameof(mode), ValueMode.Random)] private float min = 1f;
+        [SerializeField] private Vector2 range;
 
-        private float Max
-        {
-            get
-            {
-                return max;
-            }
-            set
-            {
-                max = value;
-            }
-        }
-        [SerializeField, DrawIf(nameof(mode), ValueMode.Random)] private float max = 1f;
 
-        private float sliderMin;
-        private float sliderMax;
+        [SerializeField, HideInInspector] private float sliderMin = 0f;
+        [SerializeField, HideInInspector] private float sliderMax = 1f;
 
         public FloatValue()
         {
-            Min = 0.5f;
-            Max = 1;
-            Flat = 1;
         }
         public FloatValue(float sliderMin, float sliderMax) : this()
         {
@@ -88,6 +99,8 @@ namespace HexTecGames.SoundSystem
             }
             this.sliderMin = sliderMin;
             this.sliderMax = sliderMax;
+
+            range = new Vector2(0.8f, 1.2f);
         }
     }
 }

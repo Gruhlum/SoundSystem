@@ -13,6 +13,24 @@ MonoBehaviour:
   m_Name: Engine
   m_EditorClassIdentifier: 
   audioClip: {fileID: 8300000, guid: 70929903ddddb2c43b1b2805a81359b6, type: 3}
-  volume: 1
-  pitch: 1
+  volume:
+    mode: 0
+    flat: 1
+    range: {x: 0, y: 0}
+    sliderMin: 0
+    sliderMax: 1
+  pitch:
+    mode: 0
+    flat: 1.82
+    range: {x: 0, y: 0}
+    sliderMin: -3
+    sliderMax: 3
+  delay: 0
+  fadeIn: 0
+  fadeOut: 0
+  startPosition: 0
+  loop: 0
+  limitInstances: 0
+  limitMode: 0
+  maxiumInstances: 4
   audioMixerGroup: {fileID: 0}

@@ -12,31 +12,30 @@ namespace HexTecGames.SoundSystem
 
         public override void Play()
         {
-            GetWeightedSoundClip().Play();
+            GetSoundClip().Play();
         }
 
         public override void Play(SoundArgs args)
         {
-            GetWeightedSoundClip().Play(args);
+            GetSoundClip().Play(args);
         }
 
         public override void Play(float volumeMulti = 1, float pitchMulti = 1)
         {
-            GetWeightedSoundClip().Play(volumeMulti, pitchMulti);
+            GetSoundClip().Play(volumeMulti, pitchMulti);
         }
 
-        private SoundClip GetWeightedSoundClip()
+        public override SoundClip GetSoundClip()
         {
             if (SoundClips == null || SoundClips.Count == 0)
             {
                 return null;
             }
-
             float totalValue = SoundClips.Sum(x => x.weight);
             for (int i = 0; i < SoundClips.Count; i++)
             {
-                float rng = Random.Range(1, totalValue);
-                if (rng <= SoundClips[i].weight)
+                float rng = Random.Range(0, totalValue);
+                if (rng < SoundClips[i].weight)
                 {
                     return SoundClips[i].soundClip;
                 }

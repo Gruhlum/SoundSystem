@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="RandomSliderParent" style="flex-grow: 1; flex-direction: row; display: flex;">
+        <ui:FloatField value="10" name="MinValue" class="floatField" style="height: 20px; width: 56px; padding-left: 3px; padding-right: 3px; margin-right: 0;" />
+        <ui:MinMaxSlider picking-mode="Ignore" min-value="0.5" max-value="1" low-limit="0" high-limit="1" name="RandomSlider" binding-path="range" style="height: 20px; width: auto; min-width: auto; flex-grow: 1; padding-right: 3px; padding-left: 3px; margin-right: 3px;" />
+        <ui:FloatField value="20" name="MaxValue" style="height: 20px; width: 50px; padding-right: 0; padding-left: 0; margin-right: 2px;" />
+    </ui:VisualElement>
+</ui:UXML>

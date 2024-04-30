@@ -7,61 +7,67 @@ using UnityEngine.UIElements;
 
 namespace HexTecGames.SoundSystem
 {
-    //[CustomPropertyDrawer(typeof(FloatValue))]
+    [CustomPropertyDrawer(typeof(FloatValue))]
     public class FloatValueDrawer : PropertyDrawer
     {
-        //public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        //{
-        //    EditorGUILayout.BeginHorizontal(GUILayout.Height(20));
+        private EnumField enumField;
 
+        private VisualElement randomSliderParent;
+        private VisualElement flatSliderParent;
 
-        //    //ValueMode mode = (ValueMode)(property.FindPropertyRelative("mode").enumValueIndex);
-        //    EditorGUILayout.PropertyField(property.FindPropertyRelative("mode"));
-        //    return;
-        //    //EditorGUILayout.FloatField(property.FindPropertyRelative("mode"));
-        //    EditorGUILayout.FloatField(property.FindPropertyRelative("flat").floatValue);
+        private Slider flatSlider;
+        private CustomMinMaxSlider minMaxSlider;
 
-
-        //    EditorGUILayout.LabelField("Upgradable", GUILayout.Width(68));
-        //    bool isUpgradeable = property.FindPropertyRelative("isUpgradeable").boolValue;
-        //    isUpgradeable = EditorGUILayout.Toggle(isUpgradeable, GUILayout.Width(20));
-        //    property.FindPropertyRelative("isUpgradeable").boolValue = isUpgradeable;
-        //    if (isUpgradeable)
-        //    {
-        //        //CreateBoolToggle(property, "MinUp", "hasMinUpgradeValue", "minUpgradeValue", 46);
-        //        //CreateBoolToggle(property, "MaxUp", "hasMaxUpgradeValue", "maxUpgradeValue", 46);
-        //    }
-        //    EditorGUILayout.EndHorizontal();
-        //}
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var root = new VisualElement();
-            var modeProp = new PropertyField(property.FindPropertyRelative("mode"));
-            root.Add(modeProp);
-            modeProp.RegisterValueChangeCallback(
-            (propertyChanged) =>
+            VisualElement root = new VisualElement();
+            VisualTreeAsset document = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.hextecgames.soundsystem/Editor/UI Toolkit/FloatValueDrawer.uxml");
+            if (document == null)
             {
-                root.MarkDirtyRepaint();
-                foreach (var child in root.Children())
-                {
-                    child.MarkDirtyRepaint();
-                }
-            });
+                Debug.Log("Wrong Path!");
+                return root;
+            }
+            document.CloneTree(root);
 
-            if ((ValueMode)(property.FindPropertyRelative("mode").enumValueIndex) == ValueMode.Flat)
+            Label label = root.Q<Label>("Name");
+            label.text = property.displayName;
+
+            enumField = root.Q<EnumField>(name: "EnumField");
+            enumField.RegisterValueChangedCallback(EnumValueChanged);
+            flatSlider = root.Q<Slider>("FlatSlider");
+            flatSliderParent = root.Q<VisualElement>("FlatSliderParent");
+
+            flatSlider.lowValue = property.FindPropertyRelative("sliderMin").floatValue;
+            flatSlider.highValue = property.FindPropertyRelative("sliderMax").floatValue;
+
+            randomSliderParent = root.Q<VisualElement>("RandomSliderParent");
+            minMaxSlider = root.Q<CustomMinMaxSlider>("CustomMinMaxSlider");
+
+            minMaxSlider.LowLimit = property.FindPropertyRelative("sliderMin").floatValue;
+            minMaxSlider.HighLimit = property.FindPropertyRelative("sliderMax").floatValue;
+
+            DisplayCorrectSlider((ValueMode)property.FindPropertyRelative("mode").enumValueIndex);
+            return root;
+        }       
+        
+        private void EnumValueChanged(ChangeEvent<System.Enum> args)
+        {
+            DisplayCorrectSlider((ValueMode)(args.newValue));
+        }
+
+        private void DisplayCorrectSlider(ValueMode mode)
+        {
+            //Debug.Log(mode);
+            if (mode != ValueMode.Flat)
             {
-                root.Add(new PropertyField(property.FindPropertyRelative("flat")));
+                flatSliderParent.style.display = DisplayStyle.None;
+                randomSliderParent.style.display = DisplayStyle.Flex;
             }
             else
             {
-                root.Add(new PropertyField(property.FindPropertyRelative("min")));
-                root.Add(new PropertyField(property.FindPropertyRelative("max")));
+                flatSliderParent.style.display = DisplayStyle.Flex;
+                randomSliderParent.style.display = DisplayStyle.None;
             }
-            return root;
-        }
-        public void Callback(EventCallback<SerializedPropertyChangeEvent> args)
-        {
-
-        }
+        }      
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace HexTecGames.SoundSystem
 {
     [RequireComponent(typeof(AudioSource))]
+    [ExecuteAlways]
     public class SoundSource : MonoBehaviour
     {
         public AudioSource AudioSource
@@ -102,6 +104,9 @@ namespace HexTecGames.SoundSystem
 
         private bool isDelayed;
         private bool isStopping;
+
+        private float currentTime;
+
         public bool IsActive
         {
             get
@@ -121,28 +126,42 @@ namespace HexTecGames.SoundSystem
         public event Action<SoundSource> OnFinishedPlaying;
 
 
+        private void Awake()
+        {
+            if (audioSource.playOnAwake)
+            {
+                audioSource.playOnAwake = false;
+            }
+        }
         private void Reset()
         {
             AudioSource = GetComponent<AudioSource>();
         }
-        void OnDisable()
+        private void OnDisable()
         {
             OnFinishedPlaying?.Invoke(this);
-            isStopping = false;
+            ResetData();
         }
+
+        private void ResetData()
+        {          
+            isStopping = false;
+            isFadingIn = false;
+            isFadingOut = false;
+            isDelayed = false;
+            currentTime = 0;
+        }
+
         private void OnDestroy()
         {
             StopAllCoroutines();
         }
-        private float GetScaledLength()
-        {
-            return GetScaledLength(audioSource.clip.length);
-        }
-        private float GetScaledLength(float length)
-        {
-            return  (length - Args.startPosition) / Mathf.Abs(SoundClip.Pitch.Value);
-        }
+
         public void Play(SoundArgs args)
+        {
+            StartCoroutine(PlayCoroutine(args));
+        }
+        private void ApplyArgs(SoundArgs args)
         {
             Args = args;
             args.source = this;
@@ -154,49 +173,56 @@ namespace HexTecGames.SoundSystem
             Volume = SoundClip.Volume.Value * args.volumeMulti;
             AudioSource.pitch = SoundClip.Pitch.Value * args.pitchMulti;
             AudioSource.time = args.startPosition;
+        }
+        public IEnumerator PlayCoroutine(SoundArgs args)
+        {
+            ResetData();
+            ApplyArgs(args);
+            if (SoundClip == null || args.audioClip == null)
+            {
+                Debug.Log("No audioClip!");
+                yield break;
+            }
+            
             if (args.delay > 0)
             {
-                StartCoroutine(PlayDelayed(args));
+                yield return new WaitForSeconds(args.delay);
             }
-            else
+
+            if (AudioSource.pitch < 0)
             {
-                StartPlaying(args);
+                AudioSource.timeSamples = AudioSource.clip.samples - 1;
             }
-        }
-        private void StartPlaying(SoundArgs args)
-        {
-            AudioClip audioClip = args.audioClip;
-            if (SoundClip == null || audioClip == null)
-            {
-                return;
-            }
-            isFadingOut = false;        
+
+            AudioSource.Play();
+
             if (args.fadeIn > 0)
             {
                 StartCoroutine(FadeIn(args.fadeIn));
             }
-            if (Loop == false)
+            if (Loop)
             {
-                StartCoroutine(DisableAfter(GetScaledLength()));
-                if (args.fadeOut > 0)
+                yield break;
+            }
+
+            float targetTime = args.audioClip.length / audioSource.pitch;
+            
+            if (args.fadeOut > 0)
+            {
+                while (currentTime < targetTime - args.fadeOut)
                 {
-                    float delay = GetScaledLength(audioClip.length - args.fadeOut);
-                    Stop(delay, args.fadeOut);
-                }              
+                    yield return null;
+                    currentTime += Time.deltaTime;
+                }
+                yield return FadeOut(args.fadeOut);
             }
-            if (AudioSource.pitch < 0)
+            while (currentTime < targetTime)
             {
-                AudioSource.timeSamples = AudioSource.clip.samples - 1;
-                AudioSource.Play();
+                yield return null;
+                currentTime += Time.deltaTime;
             }
-            else AudioSource.Play();
-        }
-        private IEnumerator PlayDelayed(SoundArgs args)
-        {
-            isDelayed = true;
-            yield return new WaitForSeconds(args.delay);
-            isDelayed = false;
-            StartPlaying(args);
+
+            gameObject.SetActive(false);
         }
         private IEnumerator FadeIn(float length)
         {
@@ -209,15 +235,17 @@ namespace HexTecGames.SoundSystem
             float targetVol = Volume;
             Volume = 0;
 
-            for (float i = 0; i < length; i += Time.fixedDeltaTime)
+            for (float i = 0; i < length;)
             {
                 if (isFadingIn == false)
                 {
                     yield break;
                 }
                 Volume = Mathf.Lerp(0, targetVol, i / length);
-                yield return new WaitForFixedUpdate();
+                yield return null;
+                i += Time.deltaTime;
             }
+            Volume = targetVol;
             isFadingIn = false;
         }
         private IEnumerator FadeOut(float length)
@@ -230,14 +258,15 @@ namespace HexTecGames.SoundSystem
             isFadingOut = true;
             float startVolume = Volume;
 
-            for (float i = 0; i < length; i += Time.fixedDeltaTime)
+            for (float i = 0; i < length;)
             {
                 if (isFadingOut == false)
                 {
                     yield break;
                 }
                 Volume = Mathf.Lerp(startVolume, 0, i / length);
-                yield return new WaitForFixedUpdate();
+                yield return null;
+                i += Time.deltaTime;
             }
             AudioSource.Stop();
             isFadingOut = false;
@@ -248,10 +277,10 @@ namespace HexTecGames.SoundSystem
             {
                 return;
             }
-            StartCoroutine(StopSequence(delay, fadeOut));
+            StartCoroutine(StopCoroutine(delay, fadeOut));
         }
-        private IEnumerator StopSequence(float delay, float fadeOut)
-        {           
+        private IEnumerator StopCoroutine(float delay, float fadeOut)
+        {
             isStopping = true;
             if (this == null || gameObject == null)
             {
@@ -260,7 +289,7 @@ namespace HexTecGames.SoundSystem
             if (delay > 0)
             {
                 yield return new WaitForSeconds(delay);
-            }         
+            }
             if (fadeOut > 0)
             {
                 yield return FadeOut(fadeOut);
@@ -271,20 +300,6 @@ namespace HexTecGames.SoundSystem
             }
             gameObject.SetActive(false);
             isStopping = false;
-        }
-       
-        private IEnumerator DisableAfter(float time)
-        {
-            if (!DeactiveAfterPlay)
-            {
-                yield break;
-            }
-            yield return new WaitForSeconds(time + 0.2f);
-            if (!DeactiveAfterPlay)
-            {
-                yield break;
-            }
-            gameObject.SetActive(false);
         }
     }
 }

@@ -28,35 +28,12 @@ namespace HexTecGames.SoundSystem
 
         public List<SoundClip> SoundClips;
 
-        public SoundClip LastClip
-        {
-            get
-            {
-                return lastClip;
-            }
-            private set
-            {
-                lastClip = value;
-            }
-        }
         private SoundClip lastClip = default;
 
 
         public override void Play()
         {
-            if (PlayAllAtOnce)
-            {
-                foreach (var soundClip in SoundClips)
-                {
-                    soundClip.Play();
-                }
-            }
-            else
-            {
-                SoundClip clip = GetNext();
-                clip.Play();
-                LastClip = clip;
-            } 
+            Play(new SoundArgs());
         }
         public override void Play(SoundArgs args)
         {
@@ -70,11 +47,10 @@ namespace HexTecGames.SoundSystem
             }
             else
             {
-                SoundClip clip = GetNext();
+                SoundClip clip = GetSoundClip();
                 args.Setup(clip);
                 clip.Play(args);
-                LastClip = clip;
-            } 
+            }
         }
 
         public override void Play(float volumeMulti = 1, float pitchMulti = 1)
@@ -88,13 +64,12 @@ namespace HexTecGames.SoundSystem
             }
             else
             {
-                SoundClip clip = GetNext();
+                SoundClip clip = GetSoundClip();
                 clip.Play(volumeMulti, pitchMulti);
-                LastClip = clip;
             }
         }
 
-        protected virtual SoundClip GetNext()
+        private SoundClip RetrieveSoundClip()
         {
             if (SoundClips == null || SoundClips.Count == 0)
             {
@@ -121,7 +96,7 @@ namespace HexTecGames.SoundSystem
                     int count = 0;
                     for (int i = 0; i < SoundClips.Count; i++)
                     {
-                        if (LastClip != SoundClips[i])
+                        if (lastClip != SoundClips[i])
                         {
                             indexes[count] = i;
                             count++;
@@ -135,11 +110,11 @@ namespace HexTecGames.SoundSystem
                     {
                         return SoundClips[0];
                     }
-                    if (LastClip != null)
+                    if (lastClip != null)
                     {
-                        index = SoundClips.IndexOf(LastClip) + 1;
+                        index = SoundClips.IndexOf(lastClip) + 1;
                     }
-                    
+
                     if (index >= SoundClips.Count)
                     {
                         index = 0;
@@ -149,6 +124,12 @@ namespace HexTecGames.SoundSystem
                     return null;
             }
         }
-
+        public override SoundClip GetSoundClip()
+        {
+            SoundClip clip = RetrieveSoundClip();
+            lastClip = clip;
+            return clip;
+        }
     }
+
 }

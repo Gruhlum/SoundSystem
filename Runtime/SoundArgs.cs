@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace HexTecGames.SoundSystem
 {
+    [System.Serializable]
     public class SoundArgs : EventArgs
     {
         //SoundClip clip, float delay, float fadeIn, float volMulti, float pitchMulti, bool loop

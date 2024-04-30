@@ -11,5 +11,7 @@ namespace HexTecGames.SoundSystem
         public abstract void Play();
         public abstract void Play(SoundArgs args);
         public abstract void Play(float volumeMulti = 1f, float pitchMulti = 1f);
+
+        public abstract SoundClip GetSoundClip();
     }
 }

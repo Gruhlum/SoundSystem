@@ -33,8 +33,7 @@ namespace HexTecGames.SoundSystem
                 volume = value;
             }
         }
-        [SerializeField] private FloatValue volume;
-
+        [SerializeField] private FloatValue volume = new FloatValue(0f, 1f);
 
         public FloatValue Pitch
         {
@@ -47,7 +46,7 @@ namespace HexTecGames.SoundSystem
                 pitch = value;
             }
         }
-        [SerializeField] private FloatValue pitch;
+        [SerializeField] private FloatValue pitch = new FloatValue(-3f, 3f);
 
         public float Delay
         {
@@ -167,6 +166,11 @@ namespace HexTecGames.SoundSystem
         {
             args.Setup(this);
             SoundController.RequestTempSound(args);
+        }
+
+        public override SoundClip GetSoundClip()
+        {
+            return this;
         }
     }
 }
