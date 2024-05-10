@@ -51,7 +51,9 @@ namespace HexTecGames.SoundSystem
             }
             isLooping = clip.Loop;
             lastSource = source;
-            source.Play(new SoundArgs(clip));
+            SoundArgs args = new SoundArgs(clip);
+            source.Play(args);
+            Debug.Log($"Playing {args.audioClip.name}");
         }
 
         private SoundSource GetSoundSource()
@@ -68,6 +70,7 @@ namespace HexTecGames.SoundSystem
         {
             SoundSource clone = Instantiate(soundSourcePrefab);
             clone.gameObject.hideFlags = HideFlags.HideAndDontSave;
+            clone.gameObject.SetActive(true);
             soundSources.Add(clone);
             return clone;
         }

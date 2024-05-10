@@ -178,6 +178,7 @@ namespace HexTecGames.SoundSystem
         {
             ResetData();
             ApplyArgs(args);
+            
             if (SoundClip == null || args.audioClip == null)
             {
                 Debug.Log("No audioClip!");
@@ -193,7 +194,6 @@ namespace HexTecGames.SoundSystem
             {
                 AudioSource.timeSamples = AudioSource.clip.samples - 1;
             }
-
             AudioSource.Play();
 
             if (args.fadeIn > 0)
@@ -206,7 +206,9 @@ namespace HexTecGames.SoundSystem
             }
 
             float targetTime = args.audioClip.length / audioSource.pitch;
-            
+
+            yield return null;
+
             if (args.fadeOut > 0)
             {
                 while (currentTime < targetTime - args.fadeOut)
@@ -221,7 +223,6 @@ namespace HexTecGames.SoundSystem
                 yield return null;
                 currentTime += Time.deltaTime;
             }
-
             gameObject.SetActive(false);
         }
         private IEnumerator FadeIn(float length)
