@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032530fdddbb86d4d8ae40c44a449c42, type: 3}
+  m_Name: Gun 3
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 68b0d023db81cab43b74e559a3c7f112, type: 3}
+  volume:
+    mode: 0
+    flat: 1
+    min: 0
+    max: 0
+    range: {x: 0, y: 0}
+    sliderMin: 0
+    sliderMax: 1
+  pitch:
+    mode: 0
+    flat: 1
+    min: 1
+    max: 1
+    range: {x: 1, y: 1}
+    sliderMin: 0
+    sliderMax: 1
+  delay: 0
+  fadeIn: 0
+  fadeOut: 0
+  startPosition: 0
+  loop: 0
+  limitInstances: 0
+  limitMode: 0
+  maxiumInstances: 1
+  audioMixerGroup: {fileID: 0}

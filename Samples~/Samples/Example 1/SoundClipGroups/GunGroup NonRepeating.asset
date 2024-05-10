@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b01cfb620b4ce974997c296a8f337fe1, type: 3}
+  m_Name: GunGroup NonRepeating
+  m_EditorClassIdentifier: 
+  playAllAtOnce: 0
+  Order: 1
+  SoundClips:
+  - {fileID: 11400000, guid: 7860f098fbdd7254e815179f7bd6fa94, type: 2}
+  - {fileID: 11400000, guid: 1871b9e1e325de04fb0999756124e926, type: 2}
+  - {fileID: 11400000, guid: 2ce44efaf295a0f40a4eee3ba1e2809c, type: 2}
