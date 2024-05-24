@@ -11,7 +11,6 @@ namespace HexTecGames.SoundSystem
         [SerializeField] private string param = default;
         [SerializeField] private Slider slider = default;
 
-
         public void ToggleMute()
         {
             if (master.GetFloat(param, out float value))
@@ -32,6 +31,16 @@ namespace HexTecGames.SoundSystem
         public void OnSliderValueChanged(float value)
         {
             ChangeVolume(param, ConvertSliderValueToPercent(slider));
+        }
+
+        protected override void LoadVolume()
+        {
+            LoadVolume(slider, param);
+        }
+
+        public override void SaveVolume()
+        {
+            SaveVolume(param);
         }
     }
 }

@@ -15,17 +15,17 @@ namespace HexTecGames.SoundSystem
 
         private void Start()
         {
-            LoadSettings();
+            LoadVolume();
         }
 
-        public void SaveSettings()
+        public override void SaveVolume()
         {
             foreach (var slider in sliders)
             {
                 SaveVolume(slider);
             }
         }
-        private void LoadSettings()
+        protected override void LoadVolume()
         {
             foreach (var slider in sliders)
             {

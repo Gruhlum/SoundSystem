@@ -13,8 +13,25 @@ namespace HexTecGames
     {
         [SerializeField] protected AudioMixer master = default;
 
+        [Header("Settings")]
+        [SerializeField] private bool saveOnDisable = true;
 
         public event Action<float> OnVolumeChanged;
+
+        private void Start()
+        {
+            LoadVolume();
+        }
+        void OnDisable()
+        {
+            if (saveOnDisable)
+            {
+                SaveVolume();
+            }
+        }
+
+        protected abstract void LoadVolume();
+        public abstract void SaveVolume();
 
         protected void ChangeVolume(AudioSlider slider)
         {
@@ -32,22 +49,30 @@ namespace HexTecGames
         }
         protected void SaveVolume(AudioSlider slider)
         {
-            if (master == null)
-            {
-                return;
-            }
-            if (master.GetFloat(slider.AudioParam, out float value))
-            {
-                SaveSystem.SaveSettings(slider.AudioParam, ConvertLogToPercent(value).ToString());
-            }
+            SaveVolume(slider.AudioParam);
         }
-        protected void LoadVolume(AudioSlider slider)
+        protected void SaveVolume(string param)
         {
             if (master == null)
             {
                 return;
             }
-            string setting = SaveSystem.LoadSettings(slider.AudioParam);
+            if (master.GetFloat(param, out float value))
+            {
+                SaveSystem.SaveSettings(param, ConvertLogToPercent(value).ToString());
+            }
+        }
+        protected void LoadVolume(AudioSlider slider)
+        {
+            LoadVolume(slider.Slider, slider.AudioParam);
+        }
+        protected void LoadVolume(Slider slider, string param)
+        {
+            if (master == null)
+            {
+                return;
+            }
+            string setting = SaveSystem.LoadSettings(param);
             float volume = 0.9f;
             if (!string.IsNullOrEmpty(setting))
             {
@@ -55,9 +80,9 @@ namespace HexTecGames
             }
             if (master != null)
             {
-                master.SetFloat(slider.AudioParam, Mathf.Log(volume) * 20f);
+                master.SetFloat(param, Mathf.Log(volume) * 20f);
             }
-            slider.Slider.SetValueWithoutNotify(ConvertPercentToSliderValue(slider.Slider, volume));
+            slider.SetValueWithoutNotify(ConvertPercentToSliderValue(slider, volume));
         }
 
         protected float ConvertSliderValueToPercent(Slider slider)
