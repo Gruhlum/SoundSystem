@@ -31,11 +31,11 @@ namespace HexTecGames.SoundSystem
         private SoundClip lastClip = default;
 
 
-        public override void Play()
+        public override SoundSource Play()
         {
-            Play(new SoundArgs());
+            return Play(new SoundArgs());
         }
-        public override void Play(SoundArgs args)
+        public override SoundSource Play(SoundArgs args)
         {
             if (PlayAllAtOnce)
             {
@@ -44,16 +44,17 @@ namespace HexTecGames.SoundSystem
                     args.Setup(soundClip);
                     soundClip.Play(args);
                 }
+                return null;
             }
             else
             {
                 SoundClip clip = GetSoundClip();
                 args.Setup(clip);
-                clip.Play(args);
+                return clip.Play(args);
             }
         }
 
-        public override void Play(float volumeMulti = 1, float pitchMulti = 1)
+        public override SoundSource Play(float volumeMulti = 1, float pitchMulti = 1)
         {
             if (PlayAllAtOnce)
             {
@@ -61,11 +62,12 @@ namespace HexTecGames.SoundSystem
                 {
                     soundClip.Play(volumeMulti, pitchMulti);
                 }
+                return null;
             }
             else
             {
                 SoundClip clip = GetSoundClip();
-                clip.Play(volumeMulti, pitchMulti);
+                return clip.Play(volumeMulti, pitchMulti);
             }
         }
 

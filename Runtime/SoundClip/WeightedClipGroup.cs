@@ -10,19 +10,19 @@ namespace HexTecGames.SoundSystem
     {
         public List<WeightedClip> SoundClips = new List<WeightedClip>();
 
-        public override void Play()
+        public override SoundSource Play()
         {
-            GetSoundClip().Play();
+            return GetSoundClip().Play();
         }
 
-        public override void Play(SoundArgs args)
+        public override SoundSource Play(SoundArgs args)
         {
-            GetSoundClip().Play(args);
+            return GetSoundClip().Play(args);
         }
 
-        public override void Play(float volumeMulti = 1, float pitchMulti = 1)
+        public override SoundSource Play(float volumeMulti = 1, float pitchMulti = 1)
         {
-            GetSoundClip().Play(volumeMulti, pitchMulti);
+            return GetSoundClip().Play(volumeMulti, pitchMulti);
         }
 
         public override SoundClip GetSoundClip()

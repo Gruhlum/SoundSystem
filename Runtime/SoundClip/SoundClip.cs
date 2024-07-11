@@ -6,6 +6,9 @@ using UnityEngine.Audio;
 
 namespace HexTecGames.SoundSystem
 {
+    /// <summary>
+    /// Contains various parameters for playing a sound.
+    /// </summary>
     [CreateAssetMenu(fileName = "New Clip", menuName = "HexTecGames/SoundPack/Clip")]
     public class SoundClip : SoundClipBase
     {
@@ -150,22 +153,21 @@ namespace HexTecGames.SoundSystem
 
         public AudioMixerGroup audioMixerGroup;
 
-        public override void Play()
+        public override SoundSource Play()
         {
             SoundArgs args = new SoundArgs(this);
-            Play(args);
+            return Play(args);
         }
-
-        public override void Play(float volumeMulti = 1, float pitchMulti = 1)
+        public override SoundSource Play(float volumeMulti = 1, float pitchMulti = 1)
         {
             SoundArgs args = new SoundArgs(this, volumeMulti, pitchMulti);
-            Play(args);
+            return Play(args);
         }
-
-        public override void Play(SoundArgs args)
+        public override SoundSource Play(SoundArgs args)
         {
             args.Setup(this);
             SoundController.RequestTempSound(args);
+            return args.source;
         }
 
         public override SoundClip GetSoundClip()

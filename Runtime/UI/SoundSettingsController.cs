@@ -12,12 +12,6 @@ namespace HexTecGames.SoundSystem
     {
         [SerializeField] private List<AudioSlider> sliders = default;
         
-
-        private void Start()
-        {
-            LoadVolume();
-        }
-
         public override void SaveVolume()
         {
             foreach (var slider in sliders)

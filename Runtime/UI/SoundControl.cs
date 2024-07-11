@@ -18,11 +18,11 @@ namespace HexTecGames
 
         public event Action<float> OnVolumeChanged;
 
-        private void Start()
+        protected virtual void Start()
         {
             LoadVolume();
         }
-        void OnDisable()
+        protected virtual void OnDisable()
         {
             if (saveOnDisable)
             {
