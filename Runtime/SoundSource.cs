@@ -278,7 +278,10 @@ namespace HexTecGames.SoundSystem
             {
                 return;
             }
-            StartCoroutine(StopCoroutine(delay, fadeOut));
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(StopCoroutine(delay, fadeOut));
+            }            
         }
         private IEnumerator StopCoroutine(float delay, float fadeOut)
         {
