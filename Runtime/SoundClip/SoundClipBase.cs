@@ -8,6 +8,10 @@ namespace HexTecGames.SoundSystem
 {
     public abstract class SoundClipBase : ScriptableObject
     {
+        public void PlaySound()
+        {
+            Play();
+        }
         /// <summary>
         /// Sends a play request to the SoundController.
         /// </summary>

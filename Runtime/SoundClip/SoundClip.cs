@@ -169,7 +169,12 @@ namespace HexTecGames.SoundSystem
             SoundController.RequestTempSound(args);
             return args.source;
         }
-
+        public SoundSource GetSoundSource()
+        {
+            SoundArgs args = new SoundArgs(this);
+            SoundController.RequestPersistentSound(args);
+            return args.source;
+        }
         public override SoundClip GetSoundClip()
         {
             return this;

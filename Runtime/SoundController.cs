@@ -121,16 +121,6 @@ namespace HexTecGames.SoundSystem
             source.OnFinishedPlaying -= Source_OnFinishedPlaying;
         }
 
-        //private void PlayMusic(SoundArgs args)
-        //{
-        //    if (args == null)
-        //    {
-        //        return;
-        //    }
-        //    SoundSource source = sourceSpawner.Spawn();
-        //    source.transform.SetParent(soundBoard.MusicGO.transform);
-        //    source.Play(args);
-        //}
         public static void RequestPersistentSound(SoundArgs args)
         {
             if (OnPersistentSoundRequested == null)

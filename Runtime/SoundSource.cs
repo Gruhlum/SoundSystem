@@ -157,11 +157,19 @@ namespace HexTecGames.SoundSystem
             StopAllCoroutines();
         }
 
+        public void Play()
+        {
+            if (Args == null)
+            {
+                Debug.LogError("No Args provided!");
+            }
+            else Play(Args);
+        }
         public void Play(SoundArgs args)
         {
             StartCoroutine(PlayCoroutine(args));
         }
-        private void ApplyArgs(SoundArgs args)
+        public void ApplyArgs(SoundArgs args)
         {
             Args = args;
             args.source = this;
