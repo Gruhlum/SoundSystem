@@ -36,6 +36,7 @@ namespace HexTecGames.SoundSystem
         private void OnDisable()
         {
             OnTempSoundRequested -= TemporarySoundRequested;
+            OnPersistentSoundRequested -= PersistentSoundRequested;
         }
 
         //private void Update()
