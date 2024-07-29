@@ -29,6 +29,8 @@ namespace HexTecGames.SoundSystem
                 {
                     return;
                 }
+                Source.Play();
+                return;
             }
             SoundArgs args = new SoundArgs(soundClip, volumeMulti, pitchMulti);            
             SoundController.RequestPersistentSound(args);
