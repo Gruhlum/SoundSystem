@@ -29,6 +29,7 @@ namespace HexTecGames.SoundSystem
                 {
                     return;
                 }
+                Source.gameObject.SetActive(true);
                 Source.Play();
                 return;
             }
