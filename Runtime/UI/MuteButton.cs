@@ -22,7 +22,7 @@ namespace HexTecGames.SoundSystem
 
         public void OnClicked()
 		{
-			volumeControl.ToggleMute();		
+			volumeControl.ToggleMute();
         }
 	}
 }

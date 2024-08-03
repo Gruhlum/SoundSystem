@@ -128,9 +128,13 @@ namespace HexTecGames.SoundSystem
 
         private void Awake()
         {
-            if (audioSource.playOnAwake)
+            if (AudioSource == null)
             {
-                audioSource.playOnAwake = false;
+                AudioSource = GetComponent<AudioSource>();
+            }
+            if (AudioSource.playOnAwake)
+            {
+                AudioSource.playOnAwake = false;
             }
         }
         private void Reset()
@@ -167,6 +171,11 @@ namespace HexTecGames.SoundSystem
         }
         public void Play(SoundArgs args)
         {
+            if (args.soundClip == null)
+            {
+                gameObject.name = "No AudioClip";
+            }
+            else gameObject.name = args.soundClip.name;
             StartCoroutine(PlayCoroutine(args));
         }
         public void ApplyArgs(SoundArgs args)

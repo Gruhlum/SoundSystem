@@ -1,5 +1,4 @@
 using HexTecGames.Basics;
-using HexTecGames.SoundSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-namespace HexTecGames
+namespace HexTecGames.SoundSystem
 {
     public abstract class SoundControl : MonoBehaviour
     {
@@ -18,13 +17,19 @@ namespace HexTecGames
 
         public event Action<float> OnVolumeChanged;
 
+        private bool valueChanged;
+
         protected virtual void Start()
         {
             LoadVolume();
         }
+        protected virtual void OnEnable()
+        {
+            valueChanged = false;
+        }
         protected virtual void OnDisable()
         {
-            if (saveOnDisable)
+            if (saveOnDisable && valueChanged)
             {
                 SaveVolume();
             }
@@ -43,6 +48,7 @@ namespace HexTecGames
             {
                 return;
             }
+            valueChanged = true;
             float volume = ConvertPercentToLog(percent);
             master.SetFloat(param, volume);
             OnVolumeChanged?.Invoke(volume);

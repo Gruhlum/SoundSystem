@@ -7,7 +7,7 @@ namespace HexTecGames.SoundSystem
     [System.Serializable]
     public class MusicPlayer : ClipPlayer
     {
-        private static SoundSource source;
+        private static new SoundSource source;
         private static float duration;
 
         private void Start()
