@@ -9,45 +9,59 @@ namespace HexTecGames.SoundSystem
         [SerializeField] protected SoundClip soundClip = default;
         //private bool init;
 
-        public bool PlayOnStart
+        public PlayMode PlayMode
         {
             get
             {
-                return playOnStart;
+                return playMode;
             }
-            set
+            private set
             {
-                playOnStart = value;
+                playMode = value;
             }
         }
-        [SerializeField] private bool playOnStart;
+        [SerializeField] private PlayMode playMode;
 
-        public bool StopOnDestroy
+        public StopMode StopMode
         {
             get
             {
-                return stopOnDestroy;
+                return stopMode;
             }
-            set
+            private set
             {
-                stopOnDestroy = value;
+                stopMode = value;
             }
         }
-        [SerializeField] private bool stopOnDestroy;
+        [SerializeField] private StopMode stopMode;
 
 
         protected SoundSource source;
 
         private void Start()
         {
-            if (PlayOnStart)
+            if (PlayMode == PlayMode.Start)
             {
                 Play();
             }
         }
-        void OnDestroy()
+        private void OnEnable()
         {
-            if (StopOnDestroy)
+            if (PlayMode == PlayMode.Enable)
+            {
+                Play();
+            }
+        }
+        private void OnDisable()
+        {
+            if (StopMode == StopMode.Disable)
+            {
+                Stop();
+            }
+        }
+        private void OnDestroy()
+        {
+            if (StopMode == StopMode.Destroy)
             {
                 Stop();
             }
