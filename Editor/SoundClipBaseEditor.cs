@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 namespace HexTecGames.SoundSystem
 {
-    [CustomEditor(typeof(SoundClipBase), true)]
+    [CustomEditor(typeof(SoundClipBase), true), CanEditMultipleObjects]
     public class SoundClipBaseEditor : Editor
     {
         private Button playButton;
