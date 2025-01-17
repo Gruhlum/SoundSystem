@@ -22,6 +22,6 @@
 
 <img src="Documentation/Images/QuickStart/image3.png">
 
-4b. Or add a reference to the **Sound Clip** inside a script and call it's **Play()** method.
+4b. Or add a reference to the **Sound Clip** inside a script and call the **Play()** method.
 
 <img src="Documentation/Images/QuickStart/image4.png">
