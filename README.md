@@ -6,7 +6,7 @@
 
 ## 🚀 Quick Start
 
-1. Install this package and the [![Basics Package](https://github.com/Gruhlum/Basics)]
+1. Install this package and the [Basics Package](https://github.com/Gruhlum/Basics)
 2. Create a **Sound Clip** ScriptableObject.
 
 <img src="Documentation/Images/QuickStart/image1.png">
