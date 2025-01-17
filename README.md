@@ -6,7 +6,10 @@
 
 ## 🚀 Quick Start
 
-1. Install this package and the [Basics Package](https://github.com/Gruhlum/Basics)
+1. Install this package and the [Basics Package](https://github.com/Gruhlum/Basics).
+
+<img src="Documentation/Images/QuickStart/image0.png">
+
 2. Create a **Sound Clip** ScriptableObject.
 
 <img src="Documentation/Images/QuickStart/image1.png">
@@ -22,6 +25,3 @@
 4b. Or add a reference to the **Sound Clip** inside a script and call it's **Play()** method.
 
 <img src="Documentation/Images/QuickStart/image4.png">
-
-
-
