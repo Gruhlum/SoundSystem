@@ -1,4 +1,5 @@
 ﻿using HexTecGames.Basics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace HexTecGames.SoundSystem
     /// <summary>
     /// Contains various parameters for playing a sound.
     /// </summary>
-    [CreateAssetMenu(fileName = "New Clip", menuName = "HexTecGames/SoundPack/Clip")]
+    [CreateAssetMenu(fileName = "New Clip", menuName = "HexTecGames/SoundSystem/Clip", order = -1)]
     public class SoundClip : SoundClipBase
     {
         public AudioClip AudioClip
@@ -23,6 +24,7 @@ namespace HexTecGames.SoundSystem
                 audioClip = value;
             }
         }
+        [Tooltip("The AudioClip that will be played")]
         [SerializeField] private AudioClip audioClip = default;
 
         public FloatValue Volume
@@ -36,6 +38,7 @@ namespace HexTecGames.SoundSystem
                 volume = value;
             }
         }
+        [Tooltip("The volume of the AudioSource")]
         [SerializeField] private FloatValue volume = new FloatValue(0f, 1f);
 
         public FloatValue Pitch
@@ -49,6 +52,7 @@ namespace HexTecGames.SoundSystem
                 pitch = value;
             }
         }
+        [Tooltip("The pitch of the AudioSource")]
         [SerializeField] private FloatValue pitch = new FloatValue(-3f, 3f);
 
         public float Delay
@@ -62,6 +66,7 @@ namespace HexTecGames.SoundSystem
                 delay = value;
             }
         }
+        [Tooltip("Extra wait time before the clip starts (in seconds)")]
         [SerializeField] private float delay = default;
         public float FadeIn
         {
@@ -74,6 +79,7 @@ namespace HexTecGames.SoundSystem
                 fadeIn = value;
             }
         }
+        [Tooltip("Clip will fade in over X seconds")]
         [SerializeField] private float fadeIn = default;
         public float FadeOut
         {
@@ -86,6 +92,7 @@ namespace HexTecGames.SoundSystem
                 fadeOut = value;
             }
         }
+        [Tooltip("Clip will fade out over X seconds")]
         [SerializeField] private float fadeOut = default;
 
         public float StartPosition
@@ -99,6 +106,7 @@ namespace HexTecGames.SoundSystem
                 startPosition = value;
             }
         }
+        [Tooltip("Skips the first X seconds of the clip")]
         [SerializeField] private float startPosition = default;
 
         public bool Loop
@@ -112,6 +120,7 @@ namespace HexTecGames.SoundSystem
                 loop = value;
             }
         }
+        [Tooltip("Should the clip loop until manually stopped?")]
         [SerializeField] private bool loop = default;
 
         public bool LimitInstances
@@ -125,6 +134,7 @@ namespace HexTecGames.SoundSystem
                 limitInstances = value;
             }
         }
+        [Tooltip("Should there be a maximum amount playing at the same time of this specific clip?")]
         [SerializeField] private bool limitInstances;
         public LimitMode LimitMode
         {
@@ -137,21 +147,36 @@ namespace HexTecGames.SoundSystem
                 limitMode = value;
             }
         }
+        [Tooltip(("Steal: Stops a currently playing sound \n" +
+            "Prevent: New Sounds won't start"))]
         [SerializeField, DrawIf(nameof(limitInstances), true)] private LimitMode limitMode = default;
         public int MaximumInstances
         {
             get
             {
-                return maxiumInstances;
+                return maximumInstances;
             }
             private set
             {
-                maxiumInstances = value;
+                maximumInstances = value;
             }
         }
-        [SerializeField, DrawIf(nameof(limitInstances), true), Min(1)] private int maxiumInstances = 4;
+        [SerializeField, DrawIf(nameof(limitInstances), true), Min(1)] private int maximumInstances = 4;
 
-        public AudioMixerGroup audioMixerGroup;
+        public AudioMixerGroup AudioMixerGroup
+        {
+            get
+            {
+                return this.audioMixerGroup;
+            }
+            private set
+            {
+                this.audioMixerGroup = value;
+            }
+        }
+        [Tooltip("(Optional) The AudioMixerGroup that will be assigned to the AudioSource")]
+        [SerializeField] private AudioMixerGroup audioMixerGroup;
+
 
         public override SoundSource Play()
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HexTecGames.SoundSystem
 {
-    [CreateAssetMenu(menuName = "HexTecGames/SoundPack/WeightedClipGroup")]
+    [CreateAssetMenu(menuName = "HexTecGames/SoundSystem/WeightedClipGroup", order = 2)]
     public class WeightedClipGroup : SoundClipBase
     {
         public List<WeightedClip> SoundClips = new List<WeightedClip>();

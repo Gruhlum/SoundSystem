@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using HexTecGames.Basics;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace HexTecGames.SoundSystem
 {
     [RequireComponent(typeof(AudioSource))]
     [ExecuteAlways]
-    public class SoundSource : MonoBehaviour
+    public class SoundSource : MonoBehaviour, ISpawnable
     {
         public AudioSource AudioSource
         {
@@ -123,8 +124,8 @@ namespace HexTecGames.SoundSystem
             }
         }
 
-        public event Action<SoundSource> OnFinishedPlaying;
-
+        //public event Action<SoundSource> OnFinishedPlaying;
+        public event Action<ISpawnable> OnDeactivated;
 
         private void Awake()
         {
@@ -143,7 +144,8 @@ namespace HexTecGames.SoundSystem
         }
         private void OnDisable()
         {
-            OnFinishedPlaying?.Invoke(this);
+            OnDeactivated?.Invoke(this);
+            //OnFinishedPlaying?.Invoke(this);
             ResetData();
         }
 
@@ -184,7 +186,7 @@ namespace HexTecGames.SoundSystem
             args.source = this;
             this.SoundClip = args.soundClip;
             AudioSource.clip = args.audioClip;
-            AudioSource.outputAudioMixerGroup = SoundClip.audioMixerGroup;
+            AudioSource.outputAudioMixerGroup = SoundClip.AudioMixerGroup;
 
             Loop = args.loop;
             Volume = SoundClip.Volume.Value * args.volumeMulti;

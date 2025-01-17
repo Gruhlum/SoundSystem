@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace HexTecGames
 {
 	[RequireComponent(typeof(Button))]
-	public class ButtonSoundPlayer : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler
+	public class ButtonSoundPlayer : MonoBehaviour, IPointerEnterHandler, IPointerUpHandler, IPointerExitHandler
 	{
 		[SerializeField] private SoundClip clickClip = default;
 		[SerializeField] private SoundClip hoverEnterClip = default;
@@ -33,7 +33,7 @@ namespace HexTecGames
         {
             btn = GetComponent<Button>();
         }
-        public void OnPointerDown(PointerEventData eventData)
+        public void OnPointerUp(PointerEventData eventData)
         {
             if (!playWhenDisabled && !btn.interactable)
             {

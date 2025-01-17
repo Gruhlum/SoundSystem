@@ -8,6 +8,9 @@ namespace HexTecGames.SoundSystem
 {
     public abstract class SoundClipBase : ScriptableObject
     {
+        /// <summary>
+        /// The same as Play() but without returning the SoundSource. Needed for Unity Events.
+        /// </summary>
         public void PlaySound()
         {
             Play();

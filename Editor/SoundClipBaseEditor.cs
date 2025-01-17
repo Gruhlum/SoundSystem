@@ -46,7 +46,12 @@ namespace HexTecGames.SoundSystem
             SoundClip clip = soundClipBase.GetSoundClip();
             if (clip == null)
             {
-                Debug.Log("No clip available!");
+                Debug.Log("No SoundClip available!");
+                return;
+            }
+            if (clip.AudioClip == null)
+            {
+                Debug.Log("No AudioClip assigned!");
                 return;
             }
             isLooping = clip.Loop;

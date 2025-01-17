@@ -14,7 +14,7 @@ namespace HexTecGames.SoundSystem
     {
         [SerializeField] private SoundSource soundSourcePrefab = default;
 
-        private Spawner<SoundSource> sourceSpawner = new Spawner<SoundSource>();
+        private SpawnableSpawner<SoundSource> sourceSpawner = new SpawnableSpawner<SoundSource>();
 
         private static event Action<SoundArgs> OnTempSoundRequested;
         private static event Action<SoundArgs> OnPersistentSoundRequested;
@@ -45,14 +45,6 @@ namespace HexTecGames.SoundSystem
             OnPersistentSoundRequested -= PersistentSoundRequested;
         }
 
-        //private void Update()
-        //{
-        //    if (musicPlayer.AdvanceTime(Time.deltaTime))
-        //    {
-        //        PlayMusic(musicPlayer.GetNext());
-        //    }
-        //}
-
         private void SetSoundBoard()
         {
             soundBoard = FindObjectOfType<SoundBoard>();
@@ -74,7 +66,7 @@ namespace HexTecGames.SoundSystem
             }
             else
             {
-                sourceSpawner.AddInstances(soundBoard.transform.Find("TempSounds").GetComponentsInChildren<SoundSource>().ToList());
+                sourceSpawner.AddInstances(soundBoard.transform.Find("TempSounds").GetComponentsInChildren<SoundSource>().ToHashSet());
             }
         }
 
@@ -85,31 +77,58 @@ namespace HexTecGames.SoundSystem
                 return;
             }
             activeSources.TryGetValue(args.soundClip, out List<SoundSource> sources);
-            if (args.limitInstances)
+
+            if (PreventPlayForInstanceLimiting(args, sources))
             {
-                if (args.maximumInstances <= 0)
-                {
-                    return;
-                }
-                if (sources != null && sources.Count >= args.maximumInstances)
-                {
-                    if (args.limitMode == LimitMode.Default || args.limitMode == LimitMode.Steal)
-                    {
-                        SoundSource oldSource = sources[0];
-                        oldSource.Stop();
-                    }
-                    else return;
-                }
+                return;
             }
+
             SoundSource source = sourceSpawner.Spawn();
-            source.OnFinishedPlaying += Source_OnFinishedPlaying;
+            source.OnDeactivated += Source_OnDeactivated;
+
             if (sources != null)
             {
                 sources.Add(source);
             }
-            else activeSources.Add(args.soundClip, new List<SoundSource>());
+            else activeSources.Add(args.soundClip, new List<SoundSource>() { source });
+
             source.Play(args);
         }
+
+        /// <summary>
+        /// Checks and applies instance limiting and returns whether the clip should be prevented to play.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="sources"></param>
+        /// <returns>Returns true if the play should be prevented.</returns>
+        private bool PreventPlayForInstanceLimiting(SoundArgs args, List<SoundSource> sources)
+        {
+            if (!args.limitInstances)
+            {
+                return false;
+            }
+            if (sources == null)
+            {
+                Debug.Log("sources are null");
+                return false;
+            }
+            if (args.maximumInstances <= 0)
+            {
+                return true;
+            }
+            if (sources.Count < args.maximumInstances)
+            {
+                return false;
+            }
+            if (args.limitMode == LimitMode.Prevent)
+            {
+                return true;
+            }
+            SoundSource oldSource = sources[0];
+            oldSource.Stop();
+            return false;
+        }
+
         private void PersistentSoundRequested(SoundArgs args)
         {
             var source = Instantiate(sourceSpawner.Prefab);
@@ -118,14 +137,19 @@ namespace HexTecGames.SoundSystem
             source.transform.SetParent(soundBoard.PersistentSoundGO.transform);
         }
 
-        private void Source_OnFinishedPlaying(SoundSource source)
+        private void Source_OnDeactivated(ISpawnable source)
         {
-            if (activeSources.TryGetValue(source.SoundClip, out List<SoundSource> sources))
+            source.OnDeactivated -= Source_OnDeactivated;
+
+            if (source is not SoundSource soundSource)
             {
-                sources.Remove(source);
+                return;
+            }
+            if (activeSources.TryGetValue(soundSource.SoundClip, out List<SoundSource> sources))
+            {
+                sources.Remove(soundSource);
             }
             else Debug.Log("Missing SoundSource, this shouldn't happen!");
-            source.OnFinishedPlaying -= Source_OnFinishedPlaying;
         }
         private static SoundController CreateSoundController()
         {
@@ -150,28 +174,5 @@ namespace HexTecGames.SoundSystem
             }
             else OnTempSoundRequested.Invoke(args);
         }
-
-        //public void ChangeGlobalVolume(float value)
-        //{
-        //    if (!Mathf.Approximately(value, currentVol))
-        //    {
-        //        lastVol = currentVol;
-        //    }
-
-        //    masterMixer.SetFloat(volumParam, Mathf.Log(value) * 20);
-        //    currentVol = value;
-        //}
-
-        //public void ToggleMute()
-        //{
-        //    if (currentVol > 0.001f)
-        //    {
-        //        currentVol = 0.001f;
-        //        masterMixer.SetFloat(volumParam, 0f);
-        //    }
-        //    else currentVol = lastVol;
-
-        //    globalVolumeSlider.value = currentVol;
-        //}
     }
 }
