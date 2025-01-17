@@ -10,13 +10,13 @@
 
 1. Install the package.
 2. Create a **SoundClip** ScriptableObject.
-<img src="Documentation/Images/QuickStart/image1">
+<img src="Documentation/Images/QuickStart/image1.png">
 3. Assign an *AudioClip** to the **SoundClip** and customize the values to your liking.
-<img src="Documentation/Images/QuickStart/image2">
+<img src="Documentation/Images/QuickStart/image2.png">
 4a. Drag the **SoundClip** into any **UnityEvent** and call the **PlaySound()** method.
-<img src="Documentation/Images/QuickStart/image3">
+<img src="Documentation/Images/QuickStart/image3.png">
 4b. Or add a reference to the **SoundClip** inside a script and call it's **Play()** method.
-<img src="Documentation/Images/QuickStart/image4">
+<img src="Documentation/Images/QuickStart/image4.png">
 
 
 
