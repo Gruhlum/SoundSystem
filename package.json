@@ -1,6 +1,6 @@
 {
   "name": "com.hextecgames.soundsystem",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "displayName": "SoundSystem",
   "dependencies": {
     "com.hextecgames.basics": "1.0.0"

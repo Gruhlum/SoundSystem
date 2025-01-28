@@ -176,8 +176,9 @@ namespace HexTecGames.SoundSystem
         }
         [Tooltip("(Optional) The AudioMixerGroup that will be assigned to the AudioSource")]
         [SerializeField] private AudioMixerGroup audioMixerGroup;
-
-
+#if UNITY_EDITOR
+        [SerializeField, TextArea] private string description = default;
+#endif
         public override SoundSource Play()
         {
             SoundArgs args = new SoundArgs(this);

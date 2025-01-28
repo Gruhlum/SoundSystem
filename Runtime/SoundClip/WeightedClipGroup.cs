@@ -8,8 +8,10 @@ namespace HexTecGames.SoundSystem
     [CreateAssetMenu(menuName = "HexTecGames/SoundSystem/WeightedClipGroup", order = 2)]
     public class WeightedClipGroup : SoundClipBase
     {
-        public List<WeightedClip> SoundClips = new List<WeightedClip>();
-
+        [SerializeField] private List<WeightedClip> soundClips = new List<WeightedClip>();
+#if UNITY_EDITOR
+        [SerializeField, TextArea] private string description = default;
+#endif
         public override SoundSource Play()
         {
             return GetSoundClip().Play();
@@ -27,22 +29,22 @@ namespace HexTecGames.SoundSystem
 
         public override SoundClip GetSoundClip()
         {
-            if (SoundClips == null || SoundClips.Count == 0)
+            if (soundClips == null || soundClips.Count == 0)
             {
                 return null;
             }
-            float totalValue = SoundClips.Sum(x => x.weight);
-            for (int i = 0; i < SoundClips.Count; i++)
+            float totalValue = soundClips.Sum(x => x.weight);
+            for (int i = 0; i < soundClips.Count; i++)
             {
                 float rng = Random.Range(0, totalValue);
-                if (rng < SoundClips[i].weight)
+                if (rng < soundClips[i].weight)
                 {
-                    return SoundClips[i].soundClip;
+                    return soundClips[i].soundClip;
                 }
-                else totalValue -= SoundClips[i].weight;
+                else totalValue -= soundClips[i].weight;
             }
             Debug.Log("Shouldn't be here!");
-            return SoundClips[0].soundClip;
+            return soundClips[0].soundClip;
         }
     }
 }

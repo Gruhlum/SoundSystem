@@ -24,10 +24,11 @@ namespace HexTecGames.SoundSystem
         [SerializeField] private bool playAllAtOnce = default;
 
         [DrawIf("playAllAtOnce", false)]
-        public ReplayOrder Order;
-
-        public List<SoundClip> SoundClips;
-
+        [SerializeField] private ReplayOrder order;
+        [SerializeField] private List<SoundClip> soundClips;
+#if UNITY_EDITOR
+        [SerializeField, TextArea] private string description = default;
+#endif
         private SoundClip lastClip = default;
 
 
@@ -39,7 +40,7 @@ namespace HexTecGames.SoundSystem
         {
             if (PlayAllAtOnce)
             {
-                foreach (var soundClip in SoundClips)
+                foreach (var soundClip in soundClips)
                 {
                     args.Setup(soundClip);
                     soundClip.Play(args);
@@ -58,7 +59,7 @@ namespace HexTecGames.SoundSystem
         {
             if (PlayAllAtOnce)
             {
-                foreach (var soundClip in SoundClips)
+                foreach (var soundClip in soundClips)
                 {
                     soundClip.Play(volumeMulti, pitchMulti);
                 }
@@ -73,55 +74,55 @@ namespace HexTecGames.SoundSystem
 
         private SoundClip RetrieveSoundClip()
         {
-            if (SoundClips == null || SoundClips.Count == 0)
+            if (soundClips == null || soundClips.Count == 0)
             {
                 return null;
             }
             int index = 0;
-            ReplayOrder order = Order;
-            if (SoundClips.Count == 2 && order == ReplayOrder.NonRepeating)
+            ReplayOrder currentOrder = order;
+            if (soundClips.Count == 2 && currentOrder == ReplayOrder.NonRepeating)
             {
-                order = ReplayOrder.Order;
+                currentOrder = ReplayOrder.Order;
             }
-            switch (order)
+            switch (currentOrder)
             {
                 case ReplayOrder.Random:
-                    return SoundClips[Random.Range(0, SoundClips.Count)];
+                    return soundClips[Random.Range(0, soundClips.Count)];
 
                 case ReplayOrder.NonRepeating:
-                    if (SoundClips.Count == 1)
+                    if (soundClips.Count == 1)
                     {
-                        return SoundClips[0];
+                        return soundClips[0];
                     }
                     //TODO: Check if its working
-                    int[] indexes = new int[SoundClips.Count];
+                    int[] indexes = new int[soundClips.Count];
                     int count = 0;
-                    for (int i = 0; i < SoundClips.Count; i++)
+                    for (int i = 0; i < soundClips.Count; i++)
                     {
-                        if (lastClip != SoundClips[i])
+                        if (lastClip != soundClips[i])
                         {
                             indexes[count] = i;
                             count++;
                         }
                     }
                     index = indexes[Random.Range(0, indexes.Length)];
-                    return SoundClips[index];
+                    return soundClips[index];
 
                 case ReplayOrder.Order:
-                    if (SoundClips.Count == 1)
+                    if (soundClips.Count == 1)
                     {
-                        return SoundClips[0];
+                        return soundClips[0];
                     }
                     if (lastClip != null)
                     {
-                        index = SoundClips.IndexOf(lastClip) + 1;
+                        index = soundClips.IndexOf(lastClip) + 1;
                     }
 
-                    if (index >= SoundClips.Count)
+                    if (index >= soundClips.Count)
                     {
                         index = 0;
                     }
-                    return SoundClips[index];
+                    return soundClips[index];
                 default:
                     return null;
             }
