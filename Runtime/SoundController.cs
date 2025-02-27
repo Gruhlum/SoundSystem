@@ -109,7 +109,6 @@ namespace HexTecGames.SoundSystem
             }
             if (sources == null)
             {
-                Debug.Log("sources are null");
                 return false;
             }
             if (args.maximumInstances <= 0)

@@ -78,7 +78,7 @@ namespace HexTecGames.SoundSystem
             {
                 return;
             }
-            string setting = SaveSystem.LoadSettings(param);
+            SaveSystem.LoadSettings(param, out string setting);
             float volume = 0.9f;
             if (!string.IsNullOrEmpty(setting))
             {
