@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,6 @@ namespace HexTecGames.SoundSystem
 {
 	public enum LimitMode { Default, Steal, Prevent }
 	public enum ValueMode { Flat, Random }
-
-	public enum UnityEventType {None, Start, Destroy, Enable, Disable }
+	[Flags]
+	public enum UnityEventType {None = 0, Start = 1, Destroy = 2, Enable = 4, Disable = 8 }
 }

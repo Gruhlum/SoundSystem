@@ -40,50 +40,37 @@ namespace HexTecGames.SoundSystem
 
         private void Start()
         {
-            if (PlayMode == UnityEventType.Start)
-            {
-                Play();
-            }
-            if (StopMode == UnityEventType.Start)
-            {
-                Stop();
-            }
+            CheckForTrigger(UnityEventType.Start);
         }
+
         private void OnEnable()
         {
-            if (PlayMode == UnityEventType.Enable)
-            {
-                Play();
-            }
-            if (StopMode == UnityEventType.Enable)
-            {
-                Stop();
-            }
+            CheckForTrigger(UnityEventType.Enable);
         }
         private void OnDisable()
         {
-            if (PlayMode == UnityEventType.Disable)
-            {
-                Play();
-            }
-            if (StopMode == UnityEventType.Disable)
-            {
-                Stop();
-            }
+            CheckForTrigger(UnityEventType.Disable);
         }
         private void OnDestroy()
         {
-            if (PlayMode == UnityEventType.Destroy)
+            CheckForTrigger(UnityEventType.Destroy);
+        }
+
+        private void CheckForTrigger(UnityEventType triggerType)
+        {
+            if (PlayMode.HasFlag(triggerType))
             {
                 Play();
             }
-            if (StopMode == UnityEventType.Destroy)
+            else if (StopMode.HasFlag(triggerType))
             {
                 Stop();
             }
         }
+
         public virtual void Play()
         {
+            Debug.Log("Play");
             SoundArgs args = new SoundArgs(soundClip);
             soundClip.Play(args);
             source = args.source;
@@ -92,6 +79,8 @@ namespace HexTecGames.SoundSystem
 
         public virtual void Stop()
         {
+            Debug.Log("Stop");
+
             if (source != null)
             {
                 source.Stop();
