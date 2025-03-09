@@ -70,7 +70,6 @@ namespace HexTecGames.SoundSystem
 
         public virtual void Play()
         {
-            Debug.Log("Play");
             SoundArgs args = new SoundArgs(soundClip);
             soundClip.Play(args);
             source = args.source;
@@ -79,8 +78,6 @@ namespace HexTecGames.SoundSystem
 
         public virtual void Stop()
         {
-            Debug.Log("Stop");
-
             if (source != null)
             {
                 source.Stop();
