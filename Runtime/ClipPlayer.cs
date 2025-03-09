@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using HexTecGames.Basics;
 using UnityEngine;
 
 namespace HexTecGames.SoundSystem
@@ -7,9 +8,8 @@ namespace HexTecGames.SoundSystem
     public class ClipPlayer : MonoBehaviour
     {
         [SerializeField] protected SoundClip soundClip = default;
-        //private bool init;
 
-        public PlayMode PlayMode
+        public UnityEventType PlayMode
         {
             get
             {
@@ -20,9 +20,9 @@ namespace HexTecGames.SoundSystem
                 playMode = value;
             }
         }
-        [SerializeField] private PlayMode playMode;
+        [SerializeField] private UnityEventType playMode;
 
-        public StopMode StopMode
+        public UnityEventType StopMode
         {
             get
             {
@@ -33,35 +33,51 @@ namespace HexTecGames.SoundSystem
                 stopMode = value;
             }
         }
-        [SerializeField] private StopMode stopMode;
+        [SerializeField] private UnityEventType stopMode;
 
 
         protected SoundSource source;
 
         private void Start()
         {
-            if (PlayMode == PlayMode.Start)
+            if (PlayMode == UnityEventType.Start)
             {
                 Play();
+            }
+            if (StopMode == UnityEventType.Start)
+            {
+                Stop();
             }
         }
         private void OnEnable()
         {
-            if (PlayMode == PlayMode.Enable)
+            if (PlayMode == UnityEventType.Enable)
             {
                 Play();
+            }
+            if (StopMode == UnityEventType.Enable)
+            {
+                Stop();
             }
         }
         private void OnDisable()
         {
-            if (StopMode == StopMode.Disable)
+            if (PlayMode == UnityEventType.Disable)
+            {
+                Play();
+            }
+            if (StopMode == UnityEventType.Disable)
             {
                 Stop();
             }
         }
         private void OnDestroy()
         {
-            if (StopMode == StopMode.Destroy)
+            if (PlayMode == UnityEventType.Destroy)
+            {
+                Play();
+            }
+            if (StopMode == UnityEventType.Destroy)
             {
                 Stop();
             }
@@ -71,23 +87,28 @@ namespace HexTecGames.SoundSystem
             SoundArgs args = new SoundArgs(soundClip);
             soundClip.Play(args);
             source = args.source;
+            source.OnDeactivated += Source_OnDeactivated;
         }
+
         public virtual void Stop()
         {
             if (source != null)
             {
                 source.Stop();
+                ClearSource();
+            }
+        }
+        private void ClearSource()
+        {
+            if (source != null)
+            {
+                source.OnDeactivated -= Source_OnDeactivated;
                 source = null;
             }
         }
-        //private void OnEnable()
-        //{
-        //    SoundArgs args = new SoundArgs(clip, FadeIn, Delay, 1f, 1f, Loop);
-        //    clip.Play(FadeIn, Delay, loop: true);
-        //    if (!args.failed)
-        //    {
-        //        init = true;
-        //    }
-        //}
+        private void Source_OnDeactivated(ISpawnable obj)
+        {
+            ClearSource();
+        }
     }
 }

@@ -7,6 +7,5 @@ namespace HexTecGames.SoundSystem
 	public enum LimitMode { Default, Steal, Prevent }
 	public enum ValueMode { Flat, Random }
 
-	public enum PlayMode { Start, Enable }
-	public enum StopMode { None, Destroy, Disable }
+	public enum UnityEventType {None, Start, Destroy, Enable, Disable }
 }
