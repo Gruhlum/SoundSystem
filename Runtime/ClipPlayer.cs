@@ -92,7 +92,7 @@ namespace HexTecGames.SoundSystem
                 source = null;
             }
         }
-        private void Source_OnDeactivated(ISpawnable obj)
+        private void Source_OnDeactivated(SoundSource obj)
         {
             ClearSource();
         }

@@ -9,7 +9,7 @@ namespace HexTecGames.SoundSystem
 {
     [RequireComponent(typeof(AudioSource))]
     [ExecuteAlways]
-    public class SoundSource : MonoBehaviour, ISpawnable
+    public class SoundSource : MonoBehaviour, ISpawnable<SoundSource>
     {
         public AudioSource AudioSource
         {
@@ -125,7 +125,7 @@ namespace HexTecGames.SoundSystem
         }
 
         //public event Action<SoundSource> OnFinishedPlaying;
-        public event Action<ISpawnable> OnDeactivated;
+        public event Action<SoundSource> OnDeactivated;
 
         private void Awake()
         {

@@ -136,17 +136,13 @@ namespace HexTecGames.SoundSystem
             source.transform.SetParent(soundBoard.PersistentSoundGO.transform);
         }
 
-        private void Source_OnDeactivated(ISpawnable source)
+        private void Source_OnDeactivated(SoundSource source)
         {
             source.OnDeactivated -= Source_OnDeactivated;
 
-            if (source is not SoundSource soundSource)
+            if (activeSources.TryGetValue(source.SoundClip, out List<SoundSource> sources))
             {
-                return;
-            }
-            if (activeSources.TryGetValue(soundSource.SoundClip, out List<SoundSource> sources))
-            {
-                sources.Remove(soundSource);
+                sources.Remove(source);
             }
             else Debug.Log("Missing SoundSource, this shouldn't happen!");
         }
