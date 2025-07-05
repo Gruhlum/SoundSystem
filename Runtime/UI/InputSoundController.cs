@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace HexTecGames.SoundSystem
 {
-	public class InputSoundController : MonoBehaviour
-	{
+    public class InputSoundController : MonoBehaviour
+    {
         [SerializeField] private EventSystem es = default;
 
         [SerializeField] private SoundClipBase inputSound = default;

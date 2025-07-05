@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -18,7 +17,7 @@ namespace HexTecGames.SoundSystem
         private SoundSource lastSource;
 
 
-        void OnDisable()
+        private void OnDisable()
         {
             for (int i = soundSources.Count - 1; i >= 0; i--)
             {
@@ -29,7 +28,7 @@ namespace HexTecGames.SoundSystem
 
         public override VisualElement CreateInspectorGUI()
         {
-            var root = new VisualElement();
+            VisualElement root = new VisualElement();
 
             playButton = new Button();
             playButton.RegisterCallback<ClickEvent>(PlayButtonClicked);

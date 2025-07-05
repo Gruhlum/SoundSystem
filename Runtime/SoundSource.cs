@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using HexTecGames.Basics;
-using UnityEditor;
 using UnityEngine;
 
 namespace HexTecGames.SoundSystem
@@ -150,7 +148,7 @@ namespace HexTecGames.SoundSystem
         }
 
         private void ResetData()
-        {          
+        {
             isStopping = false;
             isFadingIn = false;
             isFadingOut = false;
@@ -197,13 +195,13 @@ namespace HexTecGames.SoundSystem
         {
             ResetData();
             ApplyArgs(args);
-            
+
             if (SoundClip == null || args.audioClip == null)
             {
                 Debug.Log("No audioClip!");
                 yield break;
             }
-            
+
             if (args.delay > 0)
             {
                 yield return new WaitForSeconds(args.delay);
@@ -300,7 +298,7 @@ namespace HexTecGames.SoundSystem
             if (gameObject.activeInHierarchy)
             {
                 StartCoroutine(StopCoroutine(delay, fadeOut));
-            }            
+            }
         }
         private IEnumerator StopCoroutine(float delay, float fadeOut)
         {

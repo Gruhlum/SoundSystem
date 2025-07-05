@@ -1,12 +1,8 @@
-﻿using HexTecGames.Basics;
-using HexTecGames.SoundSystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using HexTecGames.Basics;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace HexTecGames.SoundSystem
 {
@@ -130,7 +126,7 @@ namespace HexTecGames.SoundSystem
 
         private void PersistentSoundRequested(SoundArgs args)
         {
-            var source = Instantiate(sourceSpawner.Prefab);
+            SoundSource source = Instantiate(sourceSpawner.Prefab);
 
             source.Play(args);
             source.transform.SetParent(soundBoard.PersistentSoundGO.transform);

@@ -1,8 +1,4 @@
-using HexTecGames.SoundSystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace HexTecGames.SoundSystem
 {

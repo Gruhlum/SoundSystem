@@ -1,13 +1,10 @@
-using HexTecGames.Basics;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace HexTecGames.SoundSystem
 {
-	[System.Serializable]
-	public class FloatValue
-	{
+    [System.Serializable]
+    public class FloatValue
+    {
         public ValueMode Mode
         {
             get

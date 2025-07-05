@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace HexTecGames.SoundSystem
 {
-	public class MuteButton : MonoBehaviour
-	{
-		[SerializeField] private GameObject crossGO = default;
-		[SerializeField] private VolumeControl volumeControl = default;
+    public class MuteButton : MonoBehaviour
+    {
+        [SerializeField] private GameObject crossGO = default;
+        [SerializeField] private VolumeControl volumeControl = default;
 
 
         private void Awake()
@@ -21,8 +19,8 @@ namespace HexTecGames.SoundSystem
         }
 
         public void OnClicked()
-		{
-			volumeControl.ToggleMute();
+        {
+            volumeControl.ToggleMute();
         }
-	}
+    }
 }

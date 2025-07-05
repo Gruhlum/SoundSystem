@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -48,11 +45,11 @@ namespace HexTecGames.SoundSystem
 
             DisplayCorrectSlider((ValueMode)property.FindPropertyRelative("mode").enumValueIndex);
             return root;
-        }       
-        
+        }
+
         private void EnumValueChanged(ChangeEvent<System.Enum> args)
         {
-            DisplayCorrectSlider((ValueMode)(args.newValue));
+            DisplayCorrectSlider((ValueMode)args.newValue);
         }
 
         private void DisplayCorrectSlider(ValueMode mode)
@@ -68,6 +65,6 @@ namespace HexTecGames.SoundSystem
                 flatSliderParent.style.display = DisplayStyle.Flex;
                 randomSliderParent.style.display = DisplayStyle.None;
             }
-        }      
+        }
     }
 }

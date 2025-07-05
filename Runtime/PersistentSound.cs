@@ -1,13 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace HexTecGames.SoundSystem
+﻿namespace HexTecGames.SoundSystem
 {
     [System.Serializable]
     public class PersistentSound
     {
-		public SoundClip soundClip;
+        public SoundClip soundClip;
         public SoundSource Source
         {
             get
@@ -33,7 +29,7 @@ namespace HexTecGames.SoundSystem
                 Source.Play();
                 return;
             }
-            SoundArgs args = new SoundArgs(soundClip, volumeMulti, pitchMulti);            
+            SoundArgs args = new SoundArgs(soundClip, volumeMulti, pitchMulti);
             SoundController.RequestPersistentSound(args);
             this.Source = args.source;
         }

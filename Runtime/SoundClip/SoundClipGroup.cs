@@ -1,6 +1,5 @@
-﻿using HexTecGames.Basics;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using HexTecGames.Basics;
 using UnityEngine;
 
 namespace HexTecGames.SoundSystem
@@ -40,7 +39,7 @@ namespace HexTecGames.SoundSystem
         {
             if (PlayAllAtOnce)
             {
-                foreach (var soundClip in soundClips)
+                foreach (SoundClip soundClip in soundClips)
                 {
                     args.Setup(soundClip);
                     soundClip.Play(args);
@@ -59,7 +58,7 @@ namespace HexTecGames.SoundSystem
         {
             if (PlayAllAtOnce)
             {
-                foreach (var soundClip in soundClips)
+                foreach (SoundClip soundClip in soundClips)
                 {
                     soundClip.Play(volumeMulti, pitchMulti);
                 }

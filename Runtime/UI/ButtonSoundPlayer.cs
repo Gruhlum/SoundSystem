@@ -1,20 +1,18 @@
 using HexTecGames.SoundSystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace HexTecGames
 {
-	[RequireComponent(typeof(Button))]
-	public class ButtonSoundPlayer : MonoBehaviour, IPointerEnterHandler, IPointerUpHandler, IPointerExitHandler
-	{
-		[SerializeField] private SoundClip clickClip = default;
-		[SerializeField] private SoundClip hoverEnterClip = default;
-		[SerializeField] private SoundClip hoverExitClip = default;
+    [RequireComponent(typeof(Button))]
+    public class ButtonSoundPlayer : MonoBehaviour, IPointerEnterHandler, IPointerUpHandler, IPointerExitHandler
+    {
+        [SerializeField] private SoundClip clickClip = default;
+        [SerializeField] private SoundClip hoverEnterClip = default;
+        [SerializeField] private SoundClip hoverExitClip = default;
 
-		[SerializeField] private Button btn = default;
+        [SerializeField] private Button btn = default;
 
         public bool PlayWhenDisabled
         {
@@ -69,6 +67,6 @@ namespace HexTecGames
             }
         }
 
-        
+
     }
 }
