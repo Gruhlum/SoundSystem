@@ -23,18 +23,18 @@ namespace HexTecGames.SoundSystem
         }
         [SerializeField] private AudioSource audioSource = default;
 
-        public SoundClip SoundClip
-        {
-            get
-            {
-                return this.soundClip;
-            }
-            private set
-            {
-                this.soundClip = value;
-            }
-        }
-        private SoundClip soundClip;
+        //public SoundClip SoundClip
+        //{
+        //    get
+        //    {
+        //        return this.soundClip;
+        //    }
+        //    private set
+        //    {
+        //        this.soundClip = value;
+        //    }
+        //}
+        //private SoundClip soundClip;
 
         public SoundArgs Args
         {
@@ -171,24 +171,25 @@ namespace HexTecGames.SoundSystem
         }
         public void Play(SoundArgs args)
         {
-            if (args.soundClip == null)
+            if (args.audioClip == null)
             {
                 gameObject.name = "No AudioClip";
             }
-            else gameObject.name = args.soundClip.name;
+            else gameObject.name = args.audioClip.name;
             StartCoroutine(PlayCoroutine(args));
         }
         public void ApplyArgs(SoundArgs args)
         {
             Args = args;
             args.source = this;
-            this.SoundClip = args.soundClip;
+            //this.SoundClip = args.soundClip;
             AudioSource.clip = args.audioClip;
-            AudioSource.outputAudioMixerGroup = SoundClip.AudioMixerGroup;
+            AudioSource.outputAudioMixerGroup = args.audioMixerGroup;
 
             Loop = args.loop;
-            Volume = SoundClip.Volume.Value * args.volumeMulti;
-            AudioSource.pitch = SoundClip.Pitch.Value * args.pitchMulti;
+            Volume = args.volumeMulti;
+            AudioSource.pitch = args.pitchMulti;
+
             AudioSource.time = args.startPosition;
         }
         public IEnumerator PlayCoroutine(SoundArgs args)
@@ -196,7 +197,7 @@ namespace HexTecGames.SoundSystem
             ResetData();
             ApplyArgs(args);
 
-            if (SoundClip == null || args.audioClip == null)
+            if (args.audioClip == null)
             {
                 Debug.Log("No audioClip!");
                 yield break;

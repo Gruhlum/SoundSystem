@@ -90,14 +90,18 @@ namespace HexTecGames.SoundSystem
         }
         public FloatValue(float sliderMin, float sliderMax) : this()
         {
+            SetSliderRange(sliderMin, sliderMax);
+            range = new Vector2(0.8f, sliderMax * 0.8f);
+        }
+
+        public void SetSliderRange(float sliderMin, float sliderMax)
+        {
             if (sliderMin > sliderMax)
             {
                 sliderMin = sliderMax;
             }
             this.sliderMin = sliderMin;
             this.sliderMax = sliderMax;
-
-            range = new Vector2(0.8f, 1.2f);
         }
     }
 }

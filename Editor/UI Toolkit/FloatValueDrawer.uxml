@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:VisualElement name="VisualElement" style="flex-grow: 0; flex-direction: row; flex-shrink: 1; justify-content: center; flex-wrap: nowrap; align-items: auto; overflow: hidden;">
-        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="unity-base-field__label unity-base-field unity-base-field__aligned" style="align-self: center; flex-grow: 0;" />
-        <ui:VisualElement name="VisualElement" class="unity-base-field__input unity-base-field__aligned" style="flex-direction: row;">
+    <ui:VisualElement name="VisualElement" style="flex-direction: row; flex-shrink: 1; justify-content: flex-start; flex-wrap: nowrap; align-items: center; overflow: hidden;">
+        <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" class="unity-base-field__label unity-base-field unity-base-field__aligned" style="margin-right: 0; padding-right: 0; flex-basis: 45%; flex-grow: 0; min-width: 120px;" />
+        <ui:VisualElement name="VisualElement" class="unity-base-field__input unity-base-field__aligned" style="flex-direction: row; justify-content: flex-end; align-items: stretch; align-self: auto; flex-basis: 55%;">
             <ui:EnumField type="HexTecGames.SoundSystem.ValueMode, HexTecGames.SoundPackage" name="EnumField" value="Flat" include-obsolete-values="false" binding-path="mode" class="unity-base-field__aligned" style="width: 70px; padding-right: 3px; padding-left: 0;" />
             <ui:VisualElement name="RandomSliderParent" style="flex-grow: 1; align-self: center; display: none; width: 100%; flex-shrink: 1;">
                 <HexTecGames.CustomMinMaxSlider name="CustomMinMaxSlider" style="padding-right: 0; margin-right: -2px;" />

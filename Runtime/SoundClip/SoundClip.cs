@@ -8,7 +8,7 @@ namespace HexTecGames.SoundSystem
     /// Contains various parameters for playing a sound.
     /// </summary>
     [CreateAssetMenu(fileName = "New Clip", menuName = "HexTecGames/SoundSystem/Clip", order = -1)]
-    public class SoundClip : SoundClipBase
+    public class SoundClip : SoundClipBase, IHasMaximumInstances
     {
         public AudioClip AudioClip
         {
@@ -171,26 +171,23 @@ namespace HexTecGames.SoundSystem
                 this.audioMixerGroup = value;
             }
         }
+
         [Tooltip("(Optional) The AudioMixerGroup that will be assigned to the AudioSource")]
         [SerializeField] private AudioMixerGroup audioMixerGroup;
 #if UNITY_EDITOR
         [SerializeField, TextArea] private string description = default;
 #endif
-        public override SoundSource Play()
+
+        [ContextMenu("Fix Slider Range")]
+        public void FixFloatValues()
         {
-            SoundArgs args = new SoundArgs(this);
-            return Play(args);
+            Volume.SetSliderRange(0, 1);
+            Pitch.SetSliderRange(-3, 3);
         }
-        public override SoundSource Play(float volumeMulti = 1, float pitchMulti = 1)
+
+        public override SoundArgs GetSoundArgs()
         {
-            SoundArgs args = new SoundArgs(this, volumeMulti, pitchMulti);
-            return Play(args);
-        }
-        public override SoundSource Play(SoundArgs args)
-        {
-            args.Setup(this);
-            SoundController.RequestTempSound(args);
-            return args.source;
+            return new SoundArgs(this);
         }
         public SoundSource GetSoundSource()
         {
@@ -198,7 +195,7 @@ namespace HexTecGames.SoundSystem
             SoundController.RequestPersistentSound(args);
             return args.source;
         }
-        public override SoundClip GetSoundClip()
+        public SoundClip GetSoundClip()
         {
             return this;
         }

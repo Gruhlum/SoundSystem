@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using HexTecGames.Basics;
 using UnityEngine;
 
 namespace HexTecGames.SoundSystem
 {
-
-    [CreateAssetMenu(fileName = "New ClipSoundGroup", menuName = "HexTecGames/SoundSystem/SoundClipGroup")]
-    public class SoundClipGroup : SoundClipBase
+    [CreateAssetMenu(fileName = "New AudioSoundGroup", menuName = "HexTecGames/SoundSystem/AudioClipGroup")]
+    public class AudioClipGroup : SoundClipBase
     {
         public bool PlayAllAtOnce
         {
@@ -24,24 +24,23 @@ namespace HexTecGames.SoundSystem
 
         [DrawIf("playAllAtOnce", false)]
         [SerializeField] private ReplayOrder order;
-        [SerializeField] private List<SoundClip> soundClips;
+        [SerializeField] private List<AudioClip> soundClips;
 #if UNITY_EDITOR
         [SerializeField, TextArea] private string description = default;
 #endif
-        private SoundClip lastClip = default;
+        private AudioClip lastClip = default;
 
-        
-        public SoundClip GetSoundClip()
+
+        public AudioClip GetAudioClip()
         {
-            SoundClip clip = soundClips.SelectByReplayOrder(lastClip, order);
+            AudioClip clip = soundClips.SelectByReplayOrder(lastClip, order);
             lastClip = clip;
             return clip;
         }
 
         public override SoundArgs GetSoundArgs()
         {
-            return new SoundArgs(GetSoundClip());
+            return new SoundArgs().WithClip(GetAudioClip());
         }
     }
-
 }

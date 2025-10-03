@@ -1,15 +1,15 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace HexTecGames.SoundSystem
 {
     [System.Serializable]
     public class SoundArgs : EventArgs
     {
-        //SoundClip clip, float delay, float fadeIn, float volMulti, float pitchMulti, bool loop
-
-        public SoundClip soundClip;
+        public IHasMaximumInstances hasMaximumInstances;
         public AudioClip audioClip;
+        public AudioMixerGroup audioMixerGroup;
         public float fadeIn;
         public float fadeOut;
         public float delay;
@@ -23,23 +23,18 @@ namespace HexTecGames.SoundSystem
         public SoundSource source;
         public bool failed;
 
-        public SoundArgs(SoundClip clip) : this(clip, clip.AudioClip) { }
 
-        public SoundArgs(SoundClip clip, float volumeMulti = 1, float pitchMulti = 1) : this(clip)
+        public SoundArgs()
+        { }
+        public SoundArgs(IHasMaximumInstances hasMaximumInstances)
         {
-            this.volumeMulti = volumeMulti;
-            this.pitchMulti = pitchMulti;
+            this.hasMaximumInstances = hasMaximumInstances;
         }
-        public SoundArgs(float volumeMulti = 1, float pitchMulti = 1)
+        public SoundArgs(SoundClip clip)
         {
-            this.volumeMulti = volumeMulti;
-            this.pitchMulti = pitchMulti;
-        }
-
-        public SoundArgs(SoundClip clip, AudioClip audioClip)
-        {
-            this.soundClip = clip;
-            this.audioClip = audioClip;
+            this.hasMaximumInstances = clip;
+            this.volumeMulti = clip.Volume.Value;
+            this.pitchMulti = clip.Pitch.Value;
             this.fadeIn = clip.FadeIn;
             this.fadeOut = clip.FadeOut;
             this.delay = clip.Delay;
@@ -48,17 +43,30 @@ namespace HexTecGames.SoundSystem
             this.limitInstances = clip.LimitInstances;
             this.maximumInstances = clip.MaximumInstances;
             this.limitMode = clip.LimitMode;
+            this.audioClip = clip.AudioClip;
         }
-        public SoundArgs(SoundClip clip, AudioClip audioClip, float volumeMulti = 1, float pitchMulti = 1) : this(clip, audioClip)
+        public SoundArgs WithClip(AudioClip clip)
         {
-            this.volumeMulti = volumeMulti;
-            this.pitchMulti = pitchMulti;
+            this.audioClip = clip;
+            return this;
         }
 
-        public void Setup(SoundClip clip)
+        public SoundArgs WithMixer(AudioMixerGroup mixer)
         {
-            this.soundClip = clip;
-            this.audioClip = clip.AudioClip;
+            this.audioMixerGroup = mixer;
+            return this;
+        }
+
+        public SoundArgs WithVolume(float volume)
+        {
+            this.volumeMulti = volume;
+            return this;
+        }
+
+        public SoundArgs WithPitch(float pitch)
+        {
+            this.pitchMulti = pitch;
+            return this;
         }
     }
 }

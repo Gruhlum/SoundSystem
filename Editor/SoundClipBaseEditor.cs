@@ -42,22 +42,18 @@ namespace HexTecGames.SoundSystem
         private void ApplySoundClip(SoundSource source)
         {
             SoundClipBase soundClipBase = target as SoundClipBase;
-            SoundClip clip = soundClipBase.GetSoundClip();
-            if (clip == null)
-            {
-                Debug.Log("No SoundClip available!");
-                return;
-            }
-            if (clip.AudioClip == null)
+            SoundArgs soundArgs = soundClipBase.GetSoundArgs();
+
+            if (soundArgs == null)
             {
                 Debug.Log("No AudioClip assigned!");
                 return;
             }
-            isLooping = clip.Loop;
+            isLooping = soundArgs.loop;
+
             lastSource = source;
-            SoundArgs args = new SoundArgs(clip);
-            source.Play(args);
-            Debug.Log($"Playing {args.audioClip.name}");
+            source.Play(soundArgs);
+            Debug.Log($"Playing {soundArgs.audioClip.name}");
         }
 
         private SoundSource GetSoundSource()

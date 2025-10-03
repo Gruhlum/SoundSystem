@@ -29,7 +29,7 @@
                 Source.Play();
                 return;
             }
-            SoundArgs args = new SoundArgs(soundClip, volumeMulti, pitchMulti);
+            SoundArgs args = new SoundArgs(soundClip).WithVolume(volumeMulti).WithPitch(pitchMulti);
             SoundController.RequestPersistentSound(args);
             this.Source = args.source;
         }

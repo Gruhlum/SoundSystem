@@ -35,7 +35,6 @@ namespace HexTecGames
             }
         }
 
-
         public CustomMinMaxSlider()
         {
             VisualTreeAsset tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.hextecgames.soundsystem/Editor/UI Toolkit/CustomMinMaxSlider.uxml");

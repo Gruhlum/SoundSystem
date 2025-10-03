@@ -17,7 +17,7 @@ namespace HexTecGames.SoundSystem
 
         private SoundBoard soundBoard;
 
-        private Dictionary<SoundClip, List<SoundSource>> activeSources = new Dictionary<SoundClip, List<SoundSource>>();
+        private Dictionary<IHasMaximumInstances, List<SoundSource>> activeSources = new Dictionary<IHasMaximumInstances, List<SoundSource>>();
 
         private void Awake()
         {
@@ -70,24 +70,35 @@ namespace HexTecGames.SoundSystem
         {
             if (args.audioClip == null)
             {
+                Debug.Log("SoundArgs without an AudioClip!");
                 return;
             }
-            activeSources.TryGetValue(args.soundClip, out List<SoundSource> sources);
 
-            if (PreventPlayForInstanceLimiting(args, sources))
+            List<SoundSource> sources = null;
+            var limiter = args.hasMaximumInstances;
+
+            if (limiter != null)
             {
-                return;
+                activeSources.TryGetValue(limiter, out sources);
+
+                if (PreventPlayForInstanceLimiting(args, sources))
+                {
+                    return;
+                }
             }
 
             SoundSource source = sourceSpawner.Spawn();
-            source.OnDeactivated += Source_OnDeactivated;
 
-            if (sources != null)
+            if (limiter != null)
             {
-                sources.Add(source);
-            }
-            else activeSources.Add(args.soundClip, new List<SoundSource>() { source });
+                source.OnDeactivated += Source_OnDeactivated;
 
+                if (sources != null)
+                {
+                    sources.Add(source);
+                }
+                else activeSources[limiter] = new List<SoundSource> { source };
+            }
             source.Play(args);
         }
 
@@ -99,11 +110,11 @@ namespace HexTecGames.SoundSystem
         /// <returns>Returns true if the play should be prevented.</returns>
         private bool PreventPlayForInstanceLimiting(SoundArgs args, List<SoundSource> sources)
         {
-            if (!args.limitInstances)
+            if (sources == null)
             {
                 return false;
             }
-            if (sources == null)
+            if (!args.limitInstances)
             {
                 return false;
             }
@@ -136,7 +147,7 @@ namespace HexTecGames.SoundSystem
         {
             source.OnDeactivated -= Source_OnDeactivated;
 
-            if (activeSources.TryGetValue(source.SoundClip, out List<SoundSource> sources))
+            if (activeSources.TryGetValue(source.Args.hasMaximumInstances, out List<SoundSource> sources))
             {
                 sources.Remove(source);
             }

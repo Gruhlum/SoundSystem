@@ -11,22 +11,9 @@ namespace HexTecGames.SoundSystem
 #if UNITY_EDITOR
         [SerializeField, TextArea] private string description = default;
 #endif
-        public override SoundSource Play()
-        {
-            return GetSoundClip().Play();
-        }
 
-        public override SoundSource Play(SoundArgs args)
-        {
-            return GetSoundClip().Play(args);
-        }
 
-        public override SoundSource Play(float volumeMulti = 1, float pitchMulti = 1)
-        {
-            return GetSoundClip().Play(volumeMulti, pitchMulti);
-        }
-
-        public override SoundClip GetSoundClip()
+        public SoundClip GetSoundClip()
         {
             if (soundClips == null || soundClips.Count == 0)
             {
@@ -44,6 +31,11 @@ namespace HexTecGames.SoundSystem
             }
             Debug.Log("Shouldn't be here!");
             return soundClips[0].soundClip;
+        }
+
+        public override SoundArgs GetSoundArgs()
+        {
+            return new SoundArgs(GetSoundClip());
         }
     }
 }
