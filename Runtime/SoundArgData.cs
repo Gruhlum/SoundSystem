@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HexTecGames.Basics;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace HexTecGames.SoundSystem
 {    
@@ -103,6 +104,8 @@ namespace HexTecGames.SoundSystem
         }
         [Tooltip("Should the clip loop until manually stopped?")]
         [SerializeField] private bool loop = default;
+
+        public AudioMixerGroup AudioMixerGroup { get; set; }
 
         public bool LimitInstances
         {

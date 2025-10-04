@@ -92,7 +92,7 @@ namespace HexTecGames.SoundSystem
 
         public override SoundArgs GetSoundArgs()
         {
-            return new SoundArgs(settings).WithVolume(Volume.Value).WithPitch(Pitch.Value);
+            return new SoundArgs(this, settings).WithVolume(Volume.Value).WithPitch(Pitch.Value);
         }
         public SoundClip GetSoundClip()
         {

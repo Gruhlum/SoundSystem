@@ -31,14 +31,8 @@ namespace HexTecGames.SoundSystem
 
         public void PlayNextSong()
         {
-            SoundArgs args = new SoundArgs();
-            soundClip.Play(args);
-            if (args == null)
-            {
-                return;
-            }
-            duration = args.audioClip.length;
-            source = args.source;
+            source = soundClip.Play();
+            duration = source.AudioSource.clip.length;
         }
 
         public void SetDuration(float value)

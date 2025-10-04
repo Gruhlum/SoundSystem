@@ -184,9 +184,9 @@ namespace HexTecGames.SoundSystem
             args.source = this;
             //this.SoundClip = args.soundClip;
             AudioSource.clip = args.audioClip;
-            AudioSource.outputAudioMixerGroup = args.audioMixerGroup;
+            AudioSource.outputAudioMixerGroup = args.data.AudioMixerGroup;
 
-            Loop = args.loop;
+            Loop = args.data.Loop;
             Volume = args.data.Volume;
             AudioSource.pitch = args.data.Pitch;
 

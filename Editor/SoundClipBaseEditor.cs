@@ -49,7 +49,7 @@ namespace HexTecGames.SoundSystem
                 Debug.Log("No AudioClip assigned!");
                 return;
             }
-            isLooping = soundArgs.loop;
+            isLooping = soundArgs.data.Loop;
 
             lastSource = source;
             source.Play(soundArgs);

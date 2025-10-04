@@ -7,27 +7,23 @@ namespace HexTecGames.SoundSystem
     [System.Serializable]
     public class SoundArgs : EventArgs
     {
-        public IHasMaximumInstances hasMaximumInstances;
         public SoundArgsData data;
+        public SoundClipBase soundClip;
         public AudioClip audioClip;
-        public AudioMixerGroup audioMixerGroup;
-        public bool limitInstances;
-        public int maximumInstances;
-        public LimitMode limitMode;
-        public bool loop;
+
         public SoundSource source;
         public bool failed;
 
 
-        public SoundArgs()
-        { }
-        public SoundArgs(IHasMaximumInstances hasMaximumInstances)
+        public SoundArgs(SoundClipBase soundClip, SoundArgsData data)
         {
-            this.hasMaximumInstances = hasMaximumInstances;
-        }
-        public SoundArgs(SoundArgsData data)
-        {
+            this.soundClip = soundClip;
             this.data = data;
+        }
+        public SoundArgs(SoundClipBase soundClip)
+        {
+            this.soundClip = soundClip;
+            this.data = new SoundArgsData();
         }
         public SoundArgs WithClip(AudioClip clip)
         {
@@ -37,7 +33,7 @@ namespace HexTecGames.SoundSystem
 
         public SoundArgs WithMixer(AudioMixerGroup mixer)
         {
-            this.audioMixerGroup = mixer;
+            this.data.AudioMixerGroup = mixer;
             return this;
         }
 

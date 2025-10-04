@@ -17,7 +17,7 @@ namespace HexTecGames.SoundSystem
 
         private SoundBoard soundBoard;
 
-        private Dictionary<IHasMaximumInstances, List<SoundSource>> activeSources = new Dictionary<IHasMaximumInstances, List<SoundSource>>();
+        private Dictionary<SoundClipBase, List<SoundSource>> activeSources = new Dictionary<SoundClipBase, List<SoundSource>>();
 
         private void Awake()
         {
@@ -70,12 +70,12 @@ namespace HexTecGames.SoundSystem
         {
             if (args.audioClip == null)
             {
-                Debug.Log("SoundArgs without an AudioClip!");
+                //Debug.Log("SoundArgs without an AudioClip!");
                 return;
             }
 
             List<SoundSource> sources = null;
-            var limiter = args.hasMaximumInstances;
+            var limiter = args.soundClip;
 
             if (limiter != null)
             {
@@ -114,19 +114,22 @@ namespace HexTecGames.SoundSystem
             {
                 return false;
             }
-            if (!args.limitInstances)
+
+            var data = args.data;
+
+            if (!data.LimitInstances)
             {
                 return false;
             }
-            if (args.maximumInstances <= 0)
+            if (data.MaximumInstances <= 0)
             {
                 return true;
             }
-            if (sources.Count < args.maximumInstances)
+            if (sources.Count < data.MaximumInstances)
             {
                 return false;
             }
-            if (args.limitMode == LimitMode.Prevent)
+            if (data.LimitMode == LimitMode.Prevent)
             {
                 return true;
             }
@@ -147,7 +150,7 @@ namespace HexTecGames.SoundSystem
         {
             source.OnDeactivated -= Source_OnDeactivated;
 
-            if (activeSources.TryGetValue(source.Args.hasMaximumInstances, out List<SoundSource> sources))
+            if (activeSources.TryGetValue(source.Args.soundClip, out List<SoundSource> sources))
             {
                 sources.Remove(source);
             }
