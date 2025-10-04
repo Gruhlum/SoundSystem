@@ -8,7 +8,7 @@ namespace HexTecGames.SoundSystem
     /// Contains various parameters for playing a sound.
     /// </summary>
     [CreateAssetMenu(fileName = "New Clip", menuName = "HexTecGames/SoundSystem/Clip", order = -1)]
-    public class SoundClip : SoundClipBase, IHasMaximumInstances
+    public class SoundClip : SoundClipBase
     {
         public AudioClip AudioClip
         {
@@ -24,6 +24,8 @@ namespace HexTecGames.SoundSystem
         [Tooltip("The AudioClip that will be played")]
         [SerializeField] private AudioClip audioClip = default;
 
+
+        [Tooltip("The volume of the AudioSource")]
         public FloatValue Volume
         {
             get
@@ -35,7 +37,6 @@ namespace HexTecGames.SoundSystem
                 volume = value;
             }
         }
-        [Tooltip("The volume of the AudioSource")]
         [SerializeField] private FloatValue volume = new FloatValue(0f, 1f);
 
         public FloatValue Pitch
@@ -51,114 +52,18 @@ namespace HexTecGames.SoundSystem
         }
         [Tooltip("The pitch of the AudioSource")]
         [SerializeField] private FloatValue pitch = new FloatValue(-3f, 3f);
-
-        public float Delay
+        public SoundArgsData Settings
         {
             get
             {
-                return delay;
+                return settings;
             }
             private set
             {
-                delay = value;
+                settings = value;
             }
         }
-        [Tooltip("Extra wait time before the clip starts (in seconds)")]
-        [SerializeField] private float delay = default;
-        public float FadeIn
-        {
-            get
-            {
-                return fadeIn;
-            }
-            private set
-            {
-                fadeIn = value;
-            }
-        }
-        [Tooltip("Clip will fade in over X seconds")]
-        [SerializeField] private float fadeIn = default;
-        public float FadeOut
-        {
-            get
-            {
-                return fadeOut;
-            }
-            private set
-            {
-                fadeOut = value;
-            }
-        }
-        [Tooltip("Clip will fade out over X seconds")]
-        [SerializeField] private float fadeOut = default;
-
-        public float StartPosition
-        {
-            get
-            {
-                return startPosition;
-            }
-            private set
-            {
-                startPosition = value;
-            }
-        }
-        [Tooltip("Skips the first X seconds of the clip")]
-        [SerializeField] private float startPosition = default;
-
-        public bool Loop
-        {
-            get
-            {
-                return loop;
-            }
-            private set
-            {
-                loop = value;
-            }
-        }
-        [Tooltip("Should the clip loop until manually stopped?")]
-        [SerializeField] private bool loop = default;
-
-        public bool LimitInstances
-        {
-            get
-            {
-                return limitInstances;
-            }
-            private set
-            {
-                limitInstances = value;
-            }
-        }
-        [Tooltip("Should there be a maximum amount playing at the same time of this specific clip?")]
-        [SerializeField] private bool limitInstances;
-        public LimitMode LimitMode
-        {
-            get
-            {
-                return limitMode;
-            }
-            private set
-            {
-                limitMode = value;
-            }
-        }
-        [Tooltip(("Steal: Stops a currently playing sound \n" +
-            "Prevent: New Sounds won't start"))]
-        [SerializeField, DrawIf(nameof(limitInstances), true)] private LimitMode limitMode = default;
-        public int MaximumInstances
-        {
-            get
-            {
-                return maximumInstances;
-            }
-            private set
-            {
-                maximumInstances = value;
-            }
-        }
-        [SerializeField, DrawIf(nameof(limitInstances), true), Min(1)] private int maximumInstances = 4;
+        [SerializeField] private SoundArgsData settings = default;
 
         public AudioMixerGroup AudioMixerGroup
         {
@@ -187,13 +92,7 @@ namespace HexTecGames.SoundSystem
 
         public override SoundArgs GetSoundArgs()
         {
-            return new SoundArgs(this);
-        }
-        public SoundSource GetSoundSource()
-        {
-            SoundArgs args = new SoundArgs(this);
-            SoundController.RequestPersistentSound(args);
-            return args.source;
+            return new SoundArgs(settings).WithVolume(Volume.Value).WithPitch(Pitch.Value);
         }
         public SoundClip GetSoundClip()
         {

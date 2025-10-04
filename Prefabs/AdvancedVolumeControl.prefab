@@ -180,10 +180,6 @@ PrefabInstance:
       value: SFX
       objectReference: {fileID: 0}
     - target: {fileID: 5894995304839618000, guid: d69024aadfb1b6149b5f61ac7044b52e, type: 3}
-      propertyPath: m_fontSize
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 5894995304839618000, guid: d69024aadfb1b6149b5f61ac7044b52e, type: 3}
       propertyPath: m_fontStyle
       value: 1
       objectReference: {fileID: 0}
@@ -477,10 +473,6 @@ PrefabInstance:
       value: Music
       objectReference: {fileID: 0}
     - target: {fileID: 5894995304839618000, guid: d69024aadfb1b6149b5f61ac7044b52e, type: 3}
-      propertyPath: m_fontSize
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 5894995304839618000, guid: d69024aadfb1b6149b5f61ac7044b52e, type: 3}
       propertyPath: m_fontStyle
       value: 1
       objectReference: {fileID: 0}
@@ -772,10 +764,6 @@ PrefabInstance:
     - target: {fileID: 4379572116684661118, guid: d69024aadfb1b6149b5f61ac7044b52e, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5894995304839618000, guid: d69024aadfb1b6149b5f61ac7044b52e, type: 3}
-      propertyPath: m_fontSize
-      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5894995304839618000, guid: d69024aadfb1b6149b5f61ac7044b52e, type: 3}
       propertyPath: m_fontStyle

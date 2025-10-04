@@ -19,7 +19,6 @@ namespace HexTecGames.SoundSystem
                 playAllAtOnce = value;
             }
         }
-
         [SerializeField] private bool playAllAtOnce = default;
 
         [DrawIf("playAllAtOnce", false)]
@@ -40,7 +39,7 @@ namespace HexTecGames.SoundSystem
 
         public override SoundArgs GetSoundArgs()
         {
-            return new SoundArgs(GetSoundClip());
+            return GetSoundClip().GetSoundArgs();
         }
     }
 

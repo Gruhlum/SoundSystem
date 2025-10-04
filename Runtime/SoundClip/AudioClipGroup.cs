@@ -8,6 +8,46 @@ namespace HexTecGames.SoundSystem
     [CreateAssetMenu(fileName = "New AudioSoundGroup", menuName = "HexTecGames/SoundSystem/AudioClipGroup")]
     public class AudioClipGroup : SoundClipBase
     {
+        [Tooltip("The volume of the AudioSource")]
+        public FloatValue Volume
+        {
+            get
+            {
+                return volume;
+            }
+            private set
+            {
+                volume = value;
+            }
+        }
+        [SerializeField] private FloatValue volume = new FloatValue(0f, 1f);
+
+        public FloatValue Pitch
+        {
+            get
+            {
+                return pitch;
+            }
+            private set
+            {
+                pitch = value;
+            }
+        }
+        [Tooltip("The pitch of the AudioSource")]
+        [SerializeField] private FloatValue pitch = new FloatValue(-3f, 3f);
+        public SoundArgsData Settings
+        {
+            get
+            {
+                return settings;
+            }
+            private set
+            {
+                settings = value;
+            }
+        }
+        [SerializeField] private SoundArgsData settings = default;
+
         public bool PlayAllAtOnce
         {
             get
@@ -19,7 +59,6 @@ namespace HexTecGames.SoundSystem
                 playAllAtOnce = value;
             }
         }
-
         [SerializeField] private bool playAllAtOnce = default;
 
         [DrawIf("playAllAtOnce", false)]
@@ -40,7 +79,7 @@ namespace HexTecGames.SoundSystem
 
         public override SoundArgs GetSoundArgs()
         {
-            return new SoundArgs().WithClip(GetAudioClip());
+            return new SoundArgs(Settings).WithClip(GetAudioClip()).WithVolume(Volume.Value).WithPitch(Pitch.Value);
         }
     }
 }

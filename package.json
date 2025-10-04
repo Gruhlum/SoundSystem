@@ -14,9 +14,9 @@
   "description": "Sound System",
   "samples": [
     {
-      "displayName": "Example 1",
+      "displayName": "Test Scene",
       "description": "Showcase for how to use this system",
-      "path": "Samples~/Example 1"
+      "path": "Samples/Test Scene"
     }
   ],
   "unity": "2022.1"

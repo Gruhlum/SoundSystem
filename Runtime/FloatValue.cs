@@ -28,6 +28,10 @@ namespace HexTecGames.SoundSystem
                 }
                 else return Random.Range(Range.x, Range.y);
             }
+            set
+            {
+                Flat = value;
+            }
         }
 
         private float Flat

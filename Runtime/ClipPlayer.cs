@@ -67,9 +67,7 @@ namespace HexTecGames.SoundSystem
 
         public virtual void Play()
         {
-            SoundArgs args = new SoundArgs(soundClip);
-            soundClip.Play(args);
-            source = args.source;
+            source = soundClip.Play();
             source.OnDeactivated += Source_OnDeactivated;
         }
 

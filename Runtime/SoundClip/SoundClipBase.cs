@@ -44,8 +44,8 @@ namespace HexTecGames.SoundSystem
         public SoundArgs GetSoundArgs(float volumeMulti, float pitchMulti)
         {
             SoundArgs soundArgs = GetSoundArgs();
-            soundArgs.volumeMulti = volumeMulti;
-            soundArgs.pitchMulti = pitchMulti;
+            soundArgs.data.Volume *= volumeMulti;
+            soundArgs.data.Pitch *= pitchMulti;
             return soundArgs;
         }
     }

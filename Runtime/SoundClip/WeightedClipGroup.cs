@@ -12,7 +12,6 @@ namespace HexTecGames.SoundSystem
         [SerializeField, TextArea] private string description = default;
 #endif
 
-
         public SoundClip GetSoundClip()
         {
             if (soundClips == null || soundClips.Count == 0)
@@ -35,7 +34,7 @@ namespace HexTecGames.SoundSystem
 
         public override SoundArgs GetSoundArgs()
         {
-            return new SoundArgs(GetSoundClip());
+            return GetSoundClip().GetSoundArgs();
         }
     }
 }

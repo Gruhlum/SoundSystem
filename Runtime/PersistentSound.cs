@@ -29,7 +29,7 @@
                 Source.Play();
                 return;
             }
-            SoundArgs args = new SoundArgs(soundClip).WithVolume(volumeMulti).WithPitch(pitchMulti);
+            SoundArgs args = soundClip.GetSoundArgs(volumeMulti, pitchMulti);
             SoundController.RequestPersistentSound(args);
             this.Source = args.source;
         }
@@ -39,7 +39,7 @@
             {
                 return;
             }
-            Source.Stop(soundClip.Delay, soundClip.FadeOut);
+            Source.Stop(soundClip.Settings.Delay, soundClip.Settings.FadeOut);
         }
         public void Stop(float delay = 0, float fadeOut = 0)
         {

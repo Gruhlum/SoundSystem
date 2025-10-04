@@ -8,18 +8,13 @@ namespace HexTecGames.SoundSystem
     public class SoundArgs : EventArgs
     {
         public IHasMaximumInstances hasMaximumInstances;
+        public SoundArgsData data;
         public AudioClip audioClip;
         public AudioMixerGroup audioMixerGroup;
-        public float fadeIn;
-        public float fadeOut;
-        public float delay;
         public bool limitInstances;
         public int maximumInstances;
         public LimitMode limitMode;
         public bool loop;
-        public float volumeMulti = 1;
-        public float pitchMulti = 1;
-        public float startPosition;
         public SoundSource source;
         public bool failed;
 
@@ -30,20 +25,9 @@ namespace HexTecGames.SoundSystem
         {
             this.hasMaximumInstances = hasMaximumInstances;
         }
-        public SoundArgs(SoundClip clip)
+        public SoundArgs(SoundArgsData data)
         {
-            this.hasMaximumInstances = clip;
-            this.volumeMulti = clip.Volume.Value;
-            this.pitchMulti = clip.Pitch.Value;
-            this.fadeIn = clip.FadeIn;
-            this.fadeOut = clip.FadeOut;
-            this.delay = clip.Delay;
-            this.startPosition = clip.StartPosition;
-            this.loop = clip.Loop;
-            this.limitInstances = clip.LimitInstances;
-            this.maximumInstances = clip.MaximumInstances;
-            this.limitMode = clip.LimitMode;
-            this.audioClip = clip.AudioClip;
+            this.data = data;
         }
         public SoundArgs WithClip(AudioClip clip)
         {
@@ -59,13 +43,13 @@ namespace HexTecGames.SoundSystem
 
         public SoundArgs WithVolume(float volume)
         {
-            this.volumeMulti = volume;
+            this.data.Volume = volume;
             return this;
         }
 
         public SoundArgs WithPitch(float pitch)
         {
-            this.pitchMulti = pitch;
+            this.data.Pitch = pitch;
             return this;
         }
     }

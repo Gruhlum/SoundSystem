@@ -187,15 +187,17 @@ namespace HexTecGames.SoundSystem
             AudioSource.outputAudioMixerGroup = args.audioMixerGroup;
 
             Loop = args.loop;
-            Volume = args.volumeMulti;
-            AudioSource.pitch = args.pitchMulti;
+            Volume = args.data.Volume;
+            AudioSource.pitch = args.data.Pitch;
 
-            AudioSource.time = args.startPosition;
+            AudioSource.time = args.data.StartPosition;
         }
         public IEnumerator PlayCoroutine(SoundArgs args)
         {
             ResetData();
             ApplyArgs(args);
+
+            SoundArgsData data = args.data;
 
             if (args.audioClip == null)
             {
@@ -203,9 +205,9 @@ namespace HexTecGames.SoundSystem
                 yield break;
             }
 
-            if (args.delay > 0)
+            if (data.Delay > 0)
             {
-                yield return new WaitForSeconds(args.delay);
+                yield return new WaitForSeconds(data.Delay);
             }
 
             if (AudioSource.pitch < 0)
@@ -214,9 +216,9 @@ namespace HexTecGames.SoundSystem
             }
             AudioSource.Play();
 
-            if (args.fadeIn > 0)
+            if (data.FadeIn > 0)
             {
-                StartCoroutine(FadeIn(args.fadeIn));
+                StartCoroutine(FadeIn(data.FadeIn));
             }
             if (Loop)
             {
@@ -227,14 +229,14 @@ namespace HexTecGames.SoundSystem
 
             yield return null;
 
-            if (args.fadeOut > 0)
+            if (data.FadeOut > 0)
             {
-                while (currentTime < targetTime - args.fadeOut)
+                while (currentTime < targetTime - data.FadeOut)
                 {
                     yield return null;
                     currentTime += Time.deltaTime;
                 }
-                yield return FadeOut(args.fadeOut);
+                yield return FadeOut(data.FadeOut);
             }
             while (currentTime < targetTime)
             {
