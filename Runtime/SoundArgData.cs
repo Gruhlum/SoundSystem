@@ -147,5 +147,39 @@ namespace HexTecGames.SoundSystem
             }
         }
         [SerializeField, Min(1)] private int maximumInstances = 4;
+
+        public override string ToString()
+        {
+            List<string> items = new List<string>();
+            items.Add($"{nameof(Volume)}: {Volume}");
+            if (!Mathf.Approximately(Pitch, 1f))
+            {
+                items.Add($"{nameof(Pitch)}: {Pitch}");
+            }
+            if (!Mathf.Approximately(FadeIn, 0f))
+            {
+                items.Add($"{nameof(FadeIn)}: {FadeIn}");
+            }
+            if (!Mathf.Approximately(FadeOut, 0f))
+            {
+                items.Add($"{nameof(FadeOut)}: {FadeOut}");
+            }
+            if (!Mathf.Approximately(StartPosition, 0f))
+            {
+                items.Add($"{nameof(StartPosition)}: {StartPosition}");
+            }
+            if (Loop)
+            {
+                items.Add("Loop");
+            }
+
+            if (AudioMixerGroup == null)
+            {
+                items.Add("No AudioMixerGroup");
+            }
+            else items.Add(AudioMixerGroup.name);
+
+            return string.Join(", ", items);
+        }
     }
 }

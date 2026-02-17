@@ -53,7 +53,7 @@ namespace HexTecGames.SoundSystem
 
             lastSource = source;
             source.Play(soundArgs);
-            Debug.Log($"Playing {soundArgs.audioClip.name}");
+            Debug.Log($"Playing {soundArgs}");
         }
 
         private SoundSource GetSoundSource()

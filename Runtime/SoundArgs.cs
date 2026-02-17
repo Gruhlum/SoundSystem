@@ -20,10 +20,8 @@ namespace HexTecGames.SoundSystem
             this.soundClip = soundClip;
             this.data = data;
         }
-        public SoundArgs(SoundClipBase soundClip)
+        public SoundArgs(SoundClipBase soundClip) : this(soundClip, new SoundArgsData())
         {
-            this.soundClip = soundClip;
-            this.data = new SoundArgsData();
         }
         public SoundArgs WithClip(AudioClip clip)
         {
@@ -47,6 +45,24 @@ namespace HexTecGames.SoundSystem
         {
             this.data.Pitch = pitch;
             return this;
+        }
+
+        public string GetClipName()
+        {
+            if (soundClip != null)
+            {
+                return soundClip.name;
+            }
+            else if (audioClip != null)
+            {
+                return audioClip.name;
+            }
+            else return "No Clip";
+        }
+
+        public override string ToString()
+        {
+            return $"{GetClipName()} [{data}]";
         }
     }
 }

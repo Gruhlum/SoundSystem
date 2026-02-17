@@ -196,7 +196,6 @@ namespace HexTecGames.SoundSystem
         {
             ResetData();
             ApplyArgs(args);
-
             SoundArgsData data = args.data;
 
             if (args.audioClip == null)
