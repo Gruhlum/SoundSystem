@@ -1,5 +1,5 @@
 {
-    "name": "HexTecGames.SoundPackage.Editor",
+    "name": "HexTecGames.SoundSystem.Editor",
     "rootNamespace": "",
     "references": [
         "GUID:3548ff6b46477e543bb4a5984dc8579e"
